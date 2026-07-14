@@ -1,861 +1,637 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="el">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Τι-Σχιερτ; | Σύγχρονο Κατάστημα Μπλούζας</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-	<style>
-		:root {
-			--bg-1: #fff5e3;
-			--bg-2: #e8f6ff;
-			--ink: #182028;
-			--muted: #4f5f6d;
-			--brand: #007ea7;
-			--brand-deep: #00566f;
-			--accent: #f28f16;
-			--mint: #97e8d4;
-			--line: #d8e0e7;
-			--card: rgba(255, 255, 255, 0.78);
-			--shadow-soft: 0 14px 35px rgba(20, 36, 46, 0.11);
-			--shadow-strong: 0 26px 60px rgba(20, 36, 46, 0.2);
-			--radius-xl: 34px;
-			--radius-lg: 22px;
-		}
-
-		* {
-			box-sizing: border-box;
-		}
-
-		html,
-		body {
-			margin: 0;
-			padding: 0;
-		}
-
-		body {
-			font-family: "Manrope", "Segoe UI", sans-serif;
-			color: var(--ink);
-			line-height: 1.45;
-			background:
-				radial-gradient(circle at 8% 12%, rgba(151, 232, 212, 0.52), transparent 35%),
-				radial-gradient(circle at 92% 6%, rgba(242, 143, 22, 0.24), transparent 40%),
-				linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 100%);
-			min-height: 100vh;
-			overflow-x: hidden;
-		}
-
-		body::before {
-			content: "";
-			position: fixed;
-			inset: 0;
-			pointer-events: none;
-			z-index: -1;
-			opacity: 0.22;
-			background: repeating-linear-gradient(
-				0deg,
-				rgba(255, 255, 255, 0.35) 0,
-				rgba(255, 255, 255, 0.35) 1px,
-				transparent 1px,
-				transparent 3px
-			);
-		}
-
-		.progress-line {
-			position: fixed;
-			top: 0;
-			left: 0;
-			height: 4px;
-			width: 0;
-			z-index: 120;
-			background: linear-gradient(90deg, #00a4da 0%, #35c4ef 35%, #f28f16 100%);
-			box-shadow: 0 2px 12px rgba(0, 126, 167, 0.45);
-		}
-
-		.pointer-glow {
-			position: fixed;
-			width: 320px;
-			height: 320px;
-			border-radius: 50%;
-			pointer-events: none;
-			z-index: 2;
-			opacity: 0;
-			mix-blend-mode: screen;
-			background: radial-gradient(circle, rgba(94, 198, 230, 0.24) 0%, rgba(94, 198, 230, 0) 65%);
-			transform: translate(-50%, -50%);
-			transition: opacity 220ms ease;
-		}
-
-		.container {
-			width: min(1180px, calc(100% - 2rem));
-			margin: 0 auto;
-		}
-
-		.top-strip {
-			background: rgba(0, 126, 167, 0.1);
-			border-bottom: 1px solid rgba(0, 126, 167, 0.16);
-			overflow: hidden;
-		}
-
-		.marquee {
-			display: flex;
-			gap: 2rem;
-			width: max-content;
-			padding: 0.55rem 0;
-			font-size: 0.85rem;
-			font-weight: 800;
-			color: var(--brand-deep);
-			animation: moveStrip 24s linear infinite;
-		}
-
-		.site-header {
-			position: sticky;
-			top: 0;
-			z-index: 100;
-			background: rgba(255, 245, 227, 0.73);
-			backdrop-filter: blur(12px);
-			border-bottom: 1px solid rgba(24, 32, 40, 0.1);
-		}
-
-		.nav {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			gap: 1rem;
-			padding: 0.9rem 0;
-		}
-
-		.brand {
-			margin: 0;
-			font-family: "Archivo Black", sans-serif;
-			font-size: clamp(1.1rem, 1rem + 1.4vw, 1.86rem);
-			text-transform: uppercase;
-			letter-spacing: 0.02em;
-			background: linear-gradient(100deg, #007ea7 0%, #0093c2 45%, #f28f16 100%);
-			-webkit-background-clip: text;
-			background-clip: text;
-			color: transparent;
-		}
-
-		.brand small {
-			display: block;
-			font-family: "Manrope", sans-serif;
-			font-size: 0.72rem;
-			font-weight: 800;
-			letter-spacing: 0;
-			text-transform: none;
-			color: var(--muted);
-		}
-
-		.nav-right {
-			display: flex;
-			gap: 0.55rem;
-			align-items: center;
-		}
-
-		.badge {
-			font-size: 0.78rem;
-			font-weight: 800;
-			padding: 0.45rem 0.72rem;
-			border-radius: 999px;
-			background: rgba(255, 255, 255, 0.9);
-			border: 1px solid var(--line);
-			white-space: nowrap;
-		}
-
-		.hero {
-			padding: clamp(1.8rem, 4vw, 3.8rem) 0 1.2rem;
-		}
-
-		.hero-grid {
-			display: grid;
-			gap: 1rem;
-		}
-
-		.hero-card {
-			position: relative;
-			overflow: hidden;
-			isolation: isolate;
-			border-radius: var(--radius-xl);
-			padding: clamp(1.3rem, 3.3vw, 2.7rem);
-			color: #f6fbff;
-			background: linear-gradient(130deg, #006f93 0%, #005a75 42%, #0b485d 100%);
-			box-shadow: var(--shadow-strong);
-			transform: translateY(16px);
-			opacity: 0;
-			animation: revealUp 760ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-		}
-
-		.hero-card::before {
-			content: "";
-			position: absolute;
-			inset: -2px;
-			border-radius: inherit;
-			padding: 1px;
-			background: conic-gradient(from 140deg, rgba(255, 255, 255, 0.35), rgba(151, 232, 212, 0.5), rgba(242, 143, 22, 0.4), rgba(255, 255, 255, 0.35));
-			-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-			-webkit-mask-composite: xor;
-			mask-composite: exclude;
-			opacity: 0.7;
-			animation: spinBorder 12s linear infinite;
-			pointer-events: none;
-		}
-
-		.hero-card::after {
-			content: "";
-			position: absolute;
-			width: 340px;
-			height: 340px;
-			right: -110px;
-			top: -140px;
-			border-radius: 50%;
-			background: radial-gradient(circle, rgba(242, 143, 22, 0.35) 0%, rgba(242, 143, 22, 0) 66%);
-			pointer-events: none;
-		}
-
-		.hero-label {
-			display: inline-block;
-			padding: 0.3rem 0.58rem;
-			border-radius: 999px;
-			font-size: 0.78rem;
-			font-weight: 800;
-			letter-spacing: 0.08em;
-			text-transform: uppercase;
-			color: #d7f1ff;
-			background: rgba(255, 255, 255, 0.11);
-			backdrop-filter: blur(4px);
-		}
-
-		.hero-title {
-			margin: 0.9rem 0 0;
-			font-family: "Archivo Black", sans-serif;
-			font-size: clamp(1.7rem, 1.14rem + 3.4vw, 3.3rem);
-			line-height: 1.05;
-			max-width: 16ch;
-		}
-
-		.hero-text {
-			margin: 1rem 0 1.25rem;
-			max-width: 58ch;
-			font-size: clamp(0.96rem, 0.88rem + 0.4vw, 1.1rem);
-			color: #d9f0fb;
-		}
-
-		.hero-actions {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.72rem;
-		}
-
-		.button {
-			appearance: none;
-			border: 0;
-			border-radius: 999px;
-			padding: 0.76rem 1.2rem;
-			min-height: 46px;
-			font: inherit;
-			font-weight: 800;
-			cursor: pointer;
-			transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
-		}
-
-		.button-main {
-			background: linear-gradient(120deg, #ffdcaa 0%, #f28f16 100%);
-			color: #1b232b;
-			box-shadow: 0 10px 24px rgba(242, 143, 22, 0.35);
-		}
-
-		.button-alt {
-			color: #edf9ff;
-			border: 1px solid rgba(255, 255, 255, 0.63);
-			background: rgba(255, 255, 255, 0.08);
-		}
-
-		.button:hover,
-		.button:focus-visible {
-			transform: translateY(-2px) scale(1.015);
-			filter: brightness(1.05);
-			outline: none;
-		}
-
-		.hero-visual {
-			display: grid;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			gap: 0.72rem;
-			perspective: 900px;
-			margin-top: 0.95rem;
-		}
-
-		.float-card {
-			min-height: 90px;
-			display: grid;
-			place-items: center;
-			padding: 0.55rem;
-			border-radius: 16px;
-			background: rgba(255, 255, 255, 0.16);
-			border: 1px solid rgba(255, 255, 255, 0.38);
-			backdrop-filter: blur(6px);
-			transform-style: preserve-3d;
-			transition: transform 280ms ease;
-			animation: floatY 4.3s ease-in-out infinite;
-		}
-
-		.float-card:nth-child(2) {
-			animation-delay: 300ms;
-		}
-
-		.float-card:nth-child(3) {
-			animation-delay: 600ms;
-		}
-
-		.float-card img {
-			width: min(72px, 100%);
-			height: auto;
-			filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.18));
-		}
-
-		.strip {
-			padding: 1rem 0 1.45rem;
-		}
-
-		.strip-grid {
-			display: grid;
-			gap: 0.75rem;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-
-		.kpi {
-			padding: 0.78rem 0.9rem;
-			border-radius: 16px;
-			border: 1px solid var(--line);
-			background: var(--card);
-			box-shadow: var(--shadow-soft);
-		}
-
-		.kpi strong {
-			display: block;
-			font-size: 1.08rem;
-			font-weight: 900;
-			color: var(--brand-deep);
-		}
-
-		.kpi span {
-			font-size: 0.84rem;
-			color: var(--muted);
-		}
-
-		.products {
-			padding: 0.4rem 0 2.3rem;
-		}
-
-		.section-title {
-			margin: 0;
-			font-family: "Archivo Black", sans-serif;
-			font-size: clamp(1.34rem, 1rem + 1.6vw, 2.24rem);
-			letter-spacing: 0.01em;
-			text-transform: uppercase;
-		}
-
-		.section-note {
-			margin: 0.5rem 0 1.25rem;
-			max-width: 62ch;
-			color: var(--muted);
-		}
-
-		.product-grid {
-			display: grid;
-			grid-template-columns: 1fr;
-			gap: 0.95rem;
-		}
-
-		.card {
-			position: relative;
-			overflow: hidden;
-			display: grid;
-			grid-template-columns: minmax(94px, 118px) 1fr;
-			align-items: center;
-			gap: 1rem;
-			padding: 0.92rem;
-			border-radius: var(--radius-lg);
-			border: 1px solid var(--line);
-			background: var(--card);
-			backdrop-filter: blur(6px);
-			box-shadow: var(--shadow-soft);
-			opacity: 0;
-			transform: translateY(20px) scale(0.99);
-			transition: transform 230ms ease, box-shadow 230ms ease, border-color 230ms ease;
-		}
-
-		.card::after {
-			content: "";
-			position: absolute;
-			inset: 0;
-			pointer-events: none;
-			background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.42) 44%, transparent 70%);
-			transform: translateX(-120%);
-			transition: transform 520ms ease;
-		}
-
-		.card:hover::after {
-			transform: translateX(120%);
-		}
-
-		.card.reveal {
-			animation: cardIn 640ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-		}
-
-		.card:hover,
-		.card:focus-within {
-			transform: translateY(-4px) scale(1.003);
-			border-color: rgba(0, 126, 167, 0.45);
-			box-shadow: var(--shadow-strong);
-		}
-
-		.card-media {
-			width: 100%;
-			aspect-ratio: 1 / 1;
-			display: grid;
-			place-items: center;
-			padding: 0.45rem;
-			border-radius: 16px;
-			border: 1px solid #d1e7ef;
-			background: linear-gradient(160deg, #f4fcff 0%, #edf8f3 100%);
-		}
-
-		.card-media img {
-			max-width: 100%;
-			height: auto;
-			transition: transform 260ms ease;
-		}
-
-		.card:hover .card-media img {
-			transform: translateY(-2px) scale(1.06) rotate(-1.3deg);
-		}
-
-		.card h3 {
-			margin: 0;
-			font-size: clamp(1rem, 0.9rem + 0.5vw, 1.24rem);
-			line-height: 1.16;
-			font-weight: 900;
-		}
-
-		.price {
-			margin: 0.28rem 0;
-			font-size: 1.03rem;
-			font-weight: 900;
-			color: #db7b07;
-		}
-
-		.card p {
-			margin: 0;
-			font-size: 0.92rem;
-			color: var(--muted);
-		}
-
-		.tagline {
-			display: inline-flex;
-			margin-top: 0.58rem;
-			padding: 0.24rem 0.56rem;
-			border-radius: 999px;
-			font-size: 0.75rem;
-			font-weight: 800;
-			background: #eaf8f3;
-			color: #176d64;
-		}
-
-		.lookbook {
-			padding: 0.2rem 0 2.6rem;
-		}
-
-		.lookbook-shell {
-			display: grid;
-			gap: 0.9rem;
-			grid-template-columns: 1fr;
-		}
-
-		.lookbook-card {
-			position: relative;
-			overflow: hidden;
-			border-radius: 20px;
-			padding: 1rem;
-			border: 1px solid var(--line);
-			background: rgba(255, 255, 255, 0.7);
-			box-shadow: var(--shadow-soft);
-			min-height: 145px;
-		}
-
-		.reveal-item {
-			opacity: 0;
-			transform: translateY(18px) scale(0.99);
-		}
-
-		.reveal-item.reveal {
-			animation: cardIn 640ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-		}
-
-		.lookbook-card h3 {
-			margin: 0 0 0.35rem;
-			font-size: 1.06rem;
-			font-weight: 900;
-		}
-
-		.lookbook-card p {
-			margin: 0;
-			font-size: 0.9rem;
-			color: var(--muted);
-			max-width: 30ch;
-		}
-
-		.lookbook-card img {
-			position: absolute;
-			right: 0.8rem;
-			bottom: 0.65rem;
-			width: 86px;
-			height: auto;
-			opacity: 0.95;
-			filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.16));
-		}
-
-		.cta {
-			margin-top: 1.2rem;
-			padding: 1rem;
-			border-radius: 18px;
-			border: 1px dashed rgba(0, 126, 167, 0.46);
-			background: rgba(255, 255, 255, 0.66);
-			font-weight: 700;
-			color: #264452;
-		}
-
-		.footer {
-			padding: 1.5rem 0 2.2rem;
-			border-top: 1px dashed rgba(24, 32, 40, 0.22);
-			font-size: 0.94rem;
-			color: var(--muted);
-		}
-
-		.footer strong {
-			color: var(--ink);
-		}
-
-		.focus-ring:focus-visible,
-		.button:focus-visible {
-			outline: 3px solid #ffdca8;
-			outline-offset: 2px;
-		}
-
-		@keyframes revealUp {
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		@keyframes cardIn {
-			from {
-				opacity: 0;
-				transform: translateY(20px) scale(0.99);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0) scale(1);
-			}
-		}
-
-		@keyframes floatY {
-			0%,
-			100% {
-				transform: translateY(0);
-			}
-			50% {
-				transform: translateY(-5px);
-			}
-		}
-
-		@keyframes moveStrip {
-			0% {
-				transform: translateX(0);
-			}
-			100% {
-				transform: translateX(-50%);
-			}
-		}
-
-		@keyframes spinBorder {
-			to {
-				transform: rotate(360deg);
-			}
-		}
-
-		@media (min-width: 760px) {
-			.strip-grid {
-				grid-template-columns: repeat(4, minmax(0, 1fr));
-			}
-
-			.product-grid {
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-			}
-
-			.lookbook-shell {
-				grid-template-columns: repeat(2, minmax(0, 1fr));
-			}
-		}
-
-		@media (min-width: 980px) {
-			.hero-grid {
-				grid-template-columns: 1.25fr 0.75fr;
-				align-items: stretch;
-			}
-
-			.hero-visual {
-				grid-template-columns: 1fr;
-				align-content: center;
-				margin-top: 0;
-			}
-
-			.float-card {
-				min-height: 112px;
-			}
-
-			.product-grid {
-				grid-template-columns: repeat(3, minmax(0, 1fr));
-			}
-
-			.card {
-				grid-template-columns: 1fr;
-				align-items: start;
-			}
-
-			.card-body {
-				display: grid;
-				gap: 0.2rem;
-			}
-
-			.lookbook-shell {
-				grid-template-columns: repeat(3, minmax(0, 1fr));
-			}
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			*,
-			*::before,
-			*::after {
-				animation: none !important;
-				transition: none !important;
-			}
-		}
-	</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Threadline Studio | Premium T-Shirts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f2ea;
+      --panel: #fffdf8;
+      --ink: #1e241f;
+      --muted: #556058;
+      --brand: #114b3a;
+      --brand-2: #187357;
+      --accent: #d28f1f;
+      --line: #d9ddd2;
+      --ok: #2f7d53;
+      --shadow: 0 18px 50px rgba(17, 39, 31, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 6%, rgba(24, 115, 87, 0.08), transparent 38%),
+        radial-gradient(circle at 93% 2%, rgba(210, 143, 31, 0.12), transparent 36%),
+        var(--bg);
+      line-height: 1.45;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 248, 0.88);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+    }
+
+    .brand {
+      margin: 0;
+      display: grid;
+      gap: 0.05rem;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1rem, 0.86rem + 1vw, 1.5rem);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .brand small {
+      font-family: "IBM Plex Sans", sans-serif;
+      text-transform: none;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #ffffff;
+      color: var(--brand);
+      white-space: nowrap;
+    }
+
+    .hero {
+      padding: clamp(1.3rem, 2vw, 2rem) 0 1rem;
+    }
+
+    .hero-shell {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, #fffef9 0%, #f7f3e8 100%);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 1rem;
+      padding: clamp(1.1rem, 3vw, 2.4rem);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      margin: 0;
+      padding: 0.28rem 0.6rem;
+      border-radius: 999px;
+      background: #eaf2ee;
+      color: var(--brand);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      margin: 0.7rem 0 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.6rem, 1.1rem + 2.6vw, 3rem);
+      line-height: 1.03;
+      max-width: 15ch;
+    }
+
+    .hero p {
+      margin: 0.75rem 0 1.1rem;
+      max-width: 52ch;
+      color: var(--muted);
+      font-size: clamp(0.97rem, 0.9rem + 0.35vw, 1.08rem);
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      min-height: 46px;
+      padding: 0.76rem 1.15rem;
+      font: inherit;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 180ms ease, filter 180ms ease;
+    }
+
+    .btn-main {
+      background: var(--brand);
+      color: #f5fbf8;
+    }
+
+    .btn-soft {
+      background: #ffffff;
+      color: var(--ink);
+      border: 1px solid #cfd6ca;
+    }
+
+    .btn:hover, .btn:focus-visible {
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+      outline: none;
+    }
+
+    .hero-side {
+      border-radius: var(--radius-lg);
+      border: 1px solid #d6ddcf;
+      background: #fff;
+      padding: 0.85rem;
+      display: grid;
+      gap: 0.75rem;
+      align-content: start;
+    }
+
+    .mini-title {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.02rem;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 0.75rem;
+      align-items: center;
+      border: 1px solid #e4e9df;
+      border-radius: 12px;
+      padding: 0.5rem;
+    }
+
+    .mini-row img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      background: #f6f9f4;
+      border: 1px solid #e7ede4;
+    }
+
+    .mini-row strong {
+      display: block;
+      font-size: 0.93rem;
+    }
+
+    .mini-row span {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .trust {
+      padding: 0.45rem 0 1.2rem;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.65rem;
+    }
+
+    .trust-item {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.84);
+      border-radius: 13px;
+      padding: 0.75rem 0.85rem;
+    }
+
+    .trust-item strong {
+      display: block;
+      font-size: 0.97rem;
+      color: var(--brand);
+    }
+
+    .trust-item span {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .products {
+      padding: 0.35rem 0 2rem;
+      scroll-margin-top: 88px;
+    }
+
+    .section-head {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.28rem, 1rem + 1.2vw, 2rem);
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .filter-btn {
+      border: 1px solid #c8d2c3;
+      border-radius: 999px;
+      padding: 0.42rem 0.72rem;
+      background: #fff;
+      color: var(--ink);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .filter-btn.active {
+      background: var(--brand);
+      color: #f5fbf8;
+      border-color: var(--brand);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.82rem;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--panel);
+      box-shadow: 0 8px 26px rgba(20, 36, 30, 0.08);
+      display: grid;
+      grid-template-columns: 94px 1fr;
+      gap: 0.85rem;
+      padding: 0.72rem;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(20, 36, 30, 0.13);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #dde5d7;
+      background: #f4f8ef;
+    }
+
+    .card h4 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.2rem 0;
+    }
+
+    .price {
+      font-size: 1rem;
+      color: #8b5b10;
+      font-weight: 900;
+    }
+
+    .size {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--muted);
+      background: #edf3ee;
+      border-radius: 999px;
+      padding: 0.2rem 0.5rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .card .btn {
+      margin-top: 0.55rem;
+      min-height: 38px;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.84rem;
+      width: fit-content;
+    }
+
+    .steps {
+      padding: 0 0 2rem;
+    }
+
+    .steps-shell {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: #fff;
+      padding: 1rem;
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .steps h3 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.2rem, 1rem + 1vw, 1.8rem);
+    }
+
+    .step-grid {
+      display: grid;
+      gap: 0.65rem;
+      grid-template-columns: 1fr;
+    }
+
+    .step {
+      border: 1px solid #e0e6db;
+      border-radius: 14px;
+      padding: 0.8rem;
+      background: #fdfefa;
+    }
+
+    .step b {
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e6f0ea;
+      color: var(--brand);
+      font-size: 0.78rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .step strong { display: block; margin-bottom: 0.2rem; }
+
+    .step span { color: var(--muted); font-size: 0.88rem; }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 1.2rem 0 2rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer strong { color: var(--ink); }
+
+    @media (min-width: 760px) {
+      .hero-shell {
+        grid-template-columns: 1.15fr 0.85fr;
+        align-items: start;
+      }
+
+      .trust-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .step-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1040px) {
+      .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-	<div class="progress-line" id="progressLine" aria-hidden="true"></div>
-	<div class="pointer-glow" id="pointerGlow" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="container nav">
+      <h1 class="brand">Threadline Studio
+        <small>Premium T-Shirts for everyday wear</small>
+      </h1>
+      <div class="nav-actions">
+        <span class="chip">Δωρεάν αλλαγή 14 ημερών</span>
+        <span class="chip">Ασφαλής checkout</span>
+      </div>
+    </div>
+  </header>
 
-	<div class="top-strip" aria-hidden="true">
-		<div class="marquee">
-			<span>Νέα Συλλογή • Σύγχρονο Χιούμορ • Άψογη Εφαρμογή • 19.99 EUR •</span>
-			<span>Νέα Συλλογή • Σύγχρονο Χιούμορ • Άψογη Εφαρμογή • 19.99 EUR •</span>
-			<span>Νέα Συλλογή • Σύγχρονο Χιούμορ • Άψογη Εφαρμογή • 19.99 EUR •</span>
-		</div>
-	</div>
+  <main>
+    <section class="hero">
+      <div class="container hero-shell">
+        <div>
+          <p class="eyebrow">Νέα Συλλογή 2026</p>
+          <h2>Καθαρό στυλ, ποιοτικό t-shirt, εμπειρία αγοράς χωρίς ταλαιπωρία.</h2>
+          <p>Διάλεξε σχέδιο, επίλεξε μέγεθος, ολοκλήρωσε την παραγγελία σε λιγότερο από 1 λεπτό.</p>
+          <div class="hero-cta">
+            <a class="btn btn-main" href="#products-title">Αγορά τώρα</a>
+            <a class="btn btn-soft" href="#products-title">Δες συλλογή</a>
+          </div>
+        </div>
 
-	<header class="site-header">
-		<div class="container nav">
-			<h1 class="brand">Τι-Σχιερτ;
-				<small>Σύγχρονο χιούμορ, μοντέρνα αισθητική</small>
-			</h1>
-			<div class="nav-right">
-				<span class="badge" aria-label="Στυλ">Στυλ: Απόλυτα Σύγχρονο</span>
-				<span class="badge" aria-label="Τιμή">19.99 EUR όλα</span>
-			</div>
-		</div>
-	</header>
+        <aside class="hero-side" aria-label="Best sellers">
+          <h3 class="mini-title">Best Sellers</h3>
+          <div class="mini-row">
+            <img src="assets/icons/a1.png" alt="Urban Legend t-shirt" />
+            <div>
+              <strong>Urban Legend</strong>
+              <span>19,99 €</span>
+            </div>
+          </div>
+          <div class="mini-row">
+            <img src="assets/icons/e1.png" alt="Signature Fit t-shirt" />
+            <div>
+              <strong>Signature Fit</strong>
+              <span>19,99 €</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
 
-	<main>
-		<section class="hero" aria-labelledby="hero-title">
-			<div class="container hero-grid">
-				<div class="hero-card">
-					<span class="hero-label">Νέα Συλλογή | 2026</span>
-					<h2 class="hero-title" id="hero-title">Θα το φορέσεις και όλοι θα πουν: «αυτό είναι πραγματική δήλωση στιλ!»</h2>
-					<p class="hero-text">
-						Καθαρός σχεδιασμός, έντονο ύφος και χιούμορ όσο χρειάζεται. Επίλεξε μία από τις 5 επιλογές
-						και κάνε το σύνολό σου να ξεχωρίζει χωρίς προσπάθεια.
-					</p>
-					<div class="hero-actions">
-						<button class="button button-main focus-ring" type="button">Δες τα σχέδια</button>
-						<button class="button button-alt focus-ring" type="button">Μπες στο ύφος</button>
-					</div>
-				</div>
+    <section class="trust" aria-label="Στοιχεία αξιοπιστίας">
+      <div class="container trust-grid">
+        <div class="trust-item"><strong>Αποστολή 24-48 ώρες</strong><span>Πανελλαδικά</span></div>
+        <div class="trust-item"><strong>100% βαμβάκι</strong><span>Άνετη εφαρμογή</span></div>
+        <div class="trust-item"><strong>19,99 € όλα</strong><span>Καθαρή τιμή</span></div>
+        <div class="trust-item"><strong>Εύκολη αλλαγή</strong><span>14 ημέρες</span></div>
+      </div>
+    </section>
 
-				<div class="hero-visual" id="heroVisual" aria-hidden="true">
-					<div class="float-card"><img src="assets/icons/a1.png" alt=""></div>
-					<div class="float-card"><img src="assets/icons/c1.png" alt=""></div>
-					<div class="float-card"><img src="assets/icons/e1.png" alt=""></div>
-				</div>
-			</div>
-		</section>
+    <section class="products" id="products-title" aria-labelledby="products-heading">
+      <div class="container">
+        <div class="section-head">
+          <h3 id="products-heading">Η συλλογή</h3>
+          <p>5 σχέδια με ίδια τιμή και άμεση διαθεσιμότητα.</p>
+        </div>
 
-		<section class="strip" aria-label="Στοιχεία αξιοπιστίας">
-			<div class="container strip-grid">
-				<div class="kpi"><strong>Παράδοση σε 24 ώρες</strong><span>Γρήγορη αποστολή σε όλη την Ελλάδα</span></div>
-				<div class="kpi"><strong>5/5 σχέδια</strong><span>Επιλεγμένα με έμφαση στο στιλ</span></div>
-				<div class="kpi"><strong>19.99 EUR</strong><span>Μία ενιαία τιμή για όλα</span></div>
-				<div class="kpi"><strong>100% άνεση</strong><span>Για καφέ, βόλτα και καθημερινές εμφανίσεις</span></div>
-			</div>
-		</section>
+        <div class="filters" role="tablist" aria-label="Φίλτρα προϊόντων">
+          <button class="filter-btn active" data-filter="all" type="button">Όλα</button>
+          <button class="filter-btn" data-filter="minimal" type="button">Minimal</button>
+          <button class="filter-btn" data-filter="statement" type="button">Statement</button>
+          <button class="filter-btn" data-filter="fun" type="button">Fun</button>
+        </div>
 
-		<section class="products" aria-labelledby="products-title">
-			<div class="container">
-				<h2 class="section-title" id="products-title">Πέντε επιλογές, ξεχωριστή προσωπικότητα</h2>
-				<p class="section-note">Ίδια τιμή για όλα. Επίλεξε τη διάθεσή σου και ανέβασε το επίπεδο της εμφάνισής σου.</p>
+        <div class="product-grid" id="productGrid">
+          <article class="card" data-category="statement">
+            <img src="assets/icons/a1.png" alt="Urban Legend t-shirt" />
+            <div>
+              <h4>Urban Legend</h4>
+              <div class="meta">
+                <span class="price">19,99 €</span>
+                <span class="size">S-XXL</span>
+              </div>
+              <p>Καθαρό statement design για δυνατές εμφανίσεις.</p>
+              <a class="btn btn-main" href="product.html?product=urban-legend">Δες προϊόν</a>
+            </div>
+          </article>
 
-				<div class="product-grid">
-					<article class="card" style="animation-delay: 80ms;">
-						<div class="card-media"><img src="assets/icons/a1.png" alt="Σχέδιο μπλούζας Alpha με παιχνιδιάρικο χαρακτήρα"></div>
-						<div class="card-body">
-							<h3>Απλά Ένας Θρύλος</h3>
-							<p class="price">19.99 EUR</p>
-							<p>Για τη μέρα που κοιτάζεις τον καθρέφτη και λες «σήμερα είμαι στα καλύτερά μου».</p>
-							<span class="tagline">Διάθεση: Καφές + αυτοπεποίθηση</span>
-						</div>
-					</article>
+          <article class="card" data-category="fun">
+            <img src="assets/icons/b1.png" alt="Classic Banter t-shirt" />
+            <div>
+              <h4>Classic Banter</h4>
+              <div class="meta">
+                <span class="price">19,99 €</span>
+                <span class="size">S-XXL</span>
+              </div>
+              <p>Άνετο και ευκολοφόρετο για κάθε μέρα.</p>
+              <a class="btn btn-main" href="product.html?product=classic-banter">Δες προϊόν</a>
+            </div>
+          </article>
 
-					<article class="card" style="animation-delay: 150ms;">
-						<div class="card-media"><img src="assets/icons/b1.png" alt="Σχέδιο μπλούζας Bravo με παιχνιδιάρικη αισθητική"></div>
-						<div class="card-body">
-							<h3>Ρε Κουμπάρε Classic</h3>
-							<p class="price">19.99 EUR</p>
-							<p>Το σχέδιο που ανοίγει συζήτηση από μόνο του πριν καν πεις «καλησπέρα».</p>
-							<span class="tagline">Διάθεση: Ιδανικό για παρέα</span>
-						</div>
-					</article>
+          <article class="card" data-category="minimal">
+            <img src="assets/icons/c1.png" alt="Easy Mode t-shirt" />
+            <div>
+              <h4>Easy Mode</h4>
+              <div class="meta">
+                <span class="price">19,99 €</span>
+                <span class="size">S-XXL</span>
+              </div>
+              <p>Minimal αισθητική και διαχρονικό ύφος.</p>
+              <a class="btn btn-main" href="product.html?product=easy-mode">Δες προϊόν</a>
+            </div>
+          </article>
 
-					<article class="card" style="animation-delay: 220ms;">
-						<div class="card-media"><img src="assets/icons/c1.png" alt="Σχέδιο μπλούζας Charlie με μοντέρνο εικονογραφημένο ύφος"></div>
-						<div class="card-body">
-							<h3>Πάμε Χαλαρά</h3>
-							<p class="price">19.99 EUR</p>
-							<p>Ισορροπημένο χιούμορ, καθαρές γραμμές, χωρίς υπερβολές. Απλά κομψό.</p>
-							<span class="tagline">Διάθεση: Χαλαρή + μοντέρνα</span>
-						</div>
-					</article>
+          <article class="card" data-category="fun">
+            <img src="assets/icons/d1.png" alt="One More Tee t-shirt" />
+            <div>
+              <h4>One More Tee</h4>
+              <div class="meta">
+                <span class="price">19,99 €</span>
+                <span class="size">S-XXL</span>
+              </div>
+              <p>Fun χαρακτήρας που τραβάει βλέμματα.</p>
+              <a class="btn btn-main" href="product.html?product=one-more-tee">Δες προϊόν</a>
+            </div>
+          </article>
 
-					<article class="card" style="animation-delay: 290ms;">
-						<div class="card-media"><img src="assets/icons/d1.png" alt="Σχέδιο μπλούζας Delta με έντονο διασκεδαστικό ύφος"></div>
-						<div class="card-body">
-							<h3>Ακόμα Ένα;</h3>
-							<p class="price">19.99 EUR</p>
-							<p>Για όσους λένε «τελευταίο» και μετά παίρνουν ακόμη ένα, γιατί ξεχωρίζει πραγματικά.</p>
-							<span class="tagline">Διάθεση: Θέλω και δεύτερο</span>
-						</div>
-					</article>
+          <article class="card" data-category="minimal">
+            <img src="assets/icons/e1.png" alt="Signature Fit t-shirt" />
+            <div>
+              <h4>Signature Fit</h4>
+              <div class="meta">
+                <span class="price">19,99 €</span>
+                <span class="size">S-XXL</span>
+              </div>
+              <p>Η πιο safe premium επιλογή για καθημερινό look.</p>
+              <a class="btn btn-main" href="product.html?product=signature-fit">Δες προϊόν</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
 
-					<article class="card" style="animation-delay: 360ms;">
-						<div class="card-media"><img src="assets/icons/e1.png" alt="Σχέδιο μπλούζας Echo με χαλαρή αστική αισθητική"></div>
-						<div class="card-body">
-							<h3>Τι-Σχιερτ Υπογραφή</h3>
-							<p class="price">19.99 EUR</p>
-							<p>Η γραμμή που ταιριάζει παντού. Από τον πρωινό καφέ μέχρι τη βραδινή έξοδο.</p>
-							<span class="tagline">Διάθεση: Πρωταγωνιστική</span>
-						</div>
-					</article>
-				</div>
+    <section class="steps" aria-labelledby="steps-heading">
+      <div class="container steps-shell">
+        <h3 id="steps-heading">Πώς αγοράζεις σε 3 βήματα</h3>
+        <div class="step-grid">
+          <article class="step"><b>1</b><strong>Διάλεξε σχέδιο</strong><span>Επίλεξε αυτό που ταιριάζει στο στιλ σου.</span></article>
+          <article class="step"><b>2</b><strong>Βρες μέγεθος</strong><span>Επιλογές από S έως XXL με άνετη εφαρμογή.</span></article>
+          <article class="step"><b>3</b><strong>Ολοκλήρωσε checkout</strong><span>Ασφαλής πληρωμή και γρήγορη αποστολή.</span></article>
+        </div>
+      </div>
+    </section>
+  </main>
 
-				<p class="cta">Επόμενο βήμα: επίλεξε το αγαπημένο σου και άφησε το σύνολό σου να ξεχωρίσει από μόνο του.</p>
-			</div>
-		</section>
+  <footer class="footer">
+    <div class="container">
+      <strong>Threadline Studio</strong> | Premium t-shirts με καθαρό design, άμεση αποστολή και απλή εμπειρία αγοράς.
+    </div>
+  </footer>
 
-		<section class="lookbook" aria-labelledby="lookbook-title">
-			<div class="container">
-				<h2 class="section-title" id="lookbook-title">Οδηγός Εμφάνισης</h2>
-				<p class="section-note">Μικρές ιδέες συνδυασμών ώστε η μπλούζα σου να γίνεται το επίκεντρο σε κάθε έξοδο.</p>
-				<div class="lookbook-shell">
-					<article class="lookbook-card reveal-item">
-						<h3>Καφές στην πόλη</h3>
-						<p>Τζιν + αθλητικά + Τι-Σχιερτ. Απλό, καθαρό και διαχρονικά σωστό.</p>
-						<img src="assets/icons/b1.png" alt="Πρόταση οδηγού εμφάνισης με σχέδιο b1">
-					</article>
-					<article class="lookbook-card reveal-item">
-						<h3>Απογευματινή βόλτα</h3>
-						<p>Ελαφρύ μπουφάν πάνω από τη μπλούζα για διαστρωμάτωση με χαρακτήρα.</p>
-						<img src="assets/icons/d1.png" alt="Πρόταση οδηγού εμφάνισης με σχέδιο d1">
-					</article>
-					<article class="lookbook-card reveal-item">
-						<h3>Βραδινή έξοδος</h3>
-						<p>Μαύρο παντελόνι, διακριτικό ρολόι και το χαρακτηριστικό σχέδιο στο επίκεντρο.</p>
-						<img src="assets/icons/e1.png" alt="Πρόταση οδηγού εμφάνισης με σχέδιο e1">
-					</article>
-				</div>
-			</div>
-		</section>
-	</main>
+  <script>
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.card');
 
-	<footer class="footer">
-		<div class="container">
-			<strong>Τι-Σχιερτ;</strong> Σύγχρονη αισθητική με χιούμορ. Πιθανή παρενέργεια: «Από πού το πήρες;» σε κάθε εμφάνιση.
-		</div>
-	</footer>
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach((item) => item.classList.remove('active'));
+        btn.classList.add('active');
 
-	<script>
-		const cards = document.querySelectorAll('.card');
-		const revealItems = document.querySelectorAll('.reveal-item');
-		const progressLine = document.getElementById('progressLine');
-		const pointerGlow = document.getElementById('pointerGlow');
-
-		const revealObserver = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					entry.target.classList.add('reveal');
-					revealObserver.unobserve(entry.target);
-				}
-			});
-		}, { threshold: 0.2 });
-
-		cards.forEach((card) => revealObserver.observe(card));
-		revealItems.forEach((item) => revealObserver.observe(item));
-
-		const visual = document.getElementById('heroVisual');
-		if (visual && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
-			visual.addEventListener('mousemove', (event) => {
-				const rect = visual.getBoundingClientRect();
-				const x = (event.clientX - rect.left) / rect.width - 0.5;
-				const y = (event.clientY - rect.top) / rect.height - 0.5;
-
-				visual.querySelectorAll('.float-card').forEach((card, index) => {
-					const depth = (index + 1) * 3;
-					const rotateX = y * -6;
-					const rotateY = x * 9;
-					card.style.transform = `translateY(${-Math.abs(y * depth)}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-				});
-			});
-
-			visual.addEventListener('mouseleave', () => {
-				visual.querySelectorAll('.float-card').forEach((card) => {
-					card.style.transform = '';
-				});
-			});
-		}
-
-		window.addEventListener('scroll', () => {
-			const scrollTop = window.scrollY;
-			const max = document.documentElement.scrollHeight - window.innerHeight;
-			const progress = max > 0 ? (scrollTop / max) * 100 : 0;
-			if (progressLine) {
-				progressLine.style.width = `${progress}%`;
-			}
-		}, { passive: true });
-
-		if (pointerGlow && window.matchMedia('(pointer:fine)').matches) {
-			document.addEventListener('mousemove', (event) => {
-				pointerGlow.style.left = `${event.clientX}px`;
-				pointerGlow.style.top = `${event.clientY}px`;
-				pointerGlow.style.opacity = '1';
-			});
-
-			document.addEventListener('mouseleave', () => {
-				pointerGlow.style.opacity = '0';
-			});
-		}
-	</script>
+        const filter = btn.dataset.filter;
+        cards.forEach((card) => {
+          const category = card.dataset.category;
+          const show = filter === 'all' || category === filter;
+          card.style.display = show ? '' : 'none';
+        });
+      });
+    });
+  </script>
 </body>
 </html>

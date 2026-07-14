@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Προϊόν | Threadline Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f2ea;
+      --panel: #fffdf8;
+      --ink: #1e241f;
+      --muted: #556058;
+      --brand: #114b3a;
+      --line: #d9ddd2;
+      --shadow: 0 18px 50px rgba(17, 39, 31, 0.12);
+      --radius-xl: 28px;
+      --radius-lg: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+      color: var(--ink);
+      line-height: 1.45;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(24, 115, 87, 0.08), transparent 36%),
+        radial-gradient(circle at 92% 4%, rgba(210, 143, 31, 0.1), transparent 34%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1020px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 248, 0.9);
+      backdrop-filter: blur(8px);
+      padding: 0.85rem 0;
+    }
+
+    .topbar a {
+      color: var(--brand);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .page {
+      padding: 1.2rem 0 2rem;
+    }
+
+    .product-shell {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .media {
+      border-radius: var(--radius-lg);
+      border: 1px solid #dfe7d9;
+      background: #f6f9f3;
+      display: grid;
+      place-items: center;
+      padding: 0.8rem;
+    }
+
+    .media img {
+      width: min(280px, 100%);
+      height: auto;
+    }
+
+    .eyebrow {
+      margin: 0;
+      display: inline-flex;
+      width: fit-content;
+      border-radius: 999px;
+      background: #eaf2ee;
+      color: var(--brand);
+      padding: 0.25rem 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 0.6rem 0 0.2rem;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.5rem, 1.2rem + 1.6vw, 2.4rem);
+      line-height: 1.05;
+    }
+
+    .price {
+      margin: 0;
+      color: #8b5b10;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+
+    .description {
+      margin: 0.6rem 0 1rem;
+      color: var(--muted);
+      max-width: 52ch;
+    }
+
+    .options {
+      display: grid;
+      gap: 0.75rem;
+      grid-template-columns: 1fr;
+      margin-bottom: 1rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.3rem;
+    }
+
+    label {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    select,
+    input {
+      min-height: 42px;
+      border: 1px solid #cad5c8;
+      border-radius: 10px;
+      padding: 0.5rem 0.65rem;
+      font: inherit;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .summary {
+      border: 1px solid #d8e1d4;
+      border-radius: 12px;
+      padding: 0.75rem;
+      background: #fbfdf9;
+      margin-bottom: 0.9rem;
+      font-size: 0.95rem;
+    }
+
+    .summary strong {
+      color: var(--brand);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      min-height: 46px;
+      padding: 0.76rem 1.1rem;
+      font: inherit;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .btn-main {
+      background: var(--brand);
+      color: #f4fbf7;
+    }
+
+    .btn-soft {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid #cdd8cc;
+    }
+
+    .note {
+      margin-top: 0.75rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .warning {
+      margin-top: 0.6rem;
+      color: #8b4b0f;
+      background: #fff3df;
+      border: 1px solid #efd6ae;
+      border-radius: 10px;
+      padding: 0.55rem 0.7rem;
+      font-size: 0.83rem;
+      display: none;
+    }
+
+    @media (min-width: 820px) {
+      .product-shell {
+        grid-template-columns: 0.9fr 1.1fr;
+        align-items: start;
+        padding: 1.2rem;
+      }
+
+      .options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <a href="index.html">← Επιστροφή στη συλλογή</a>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container product-shell">
+      <div class="media">
+        <img id="productImage" src="assets/icons/a1.png" alt="T-shirt προϊόν" />
+      </div>
+
+      <section>
+        <p class="eyebrow" id="productCategory">Threadline Studio</p>
+        <h1 id="productName">Urban Legend</h1>
+        <p class="price" id="productPrice">19,99 €</p>
+        <p class="description" id="productDescription">Καθαρό statement design για δυνατές εμφανίσεις.</p>
+
+        <div class="options">
+          <div class="field">
+            <label for="sizeSelect">Μέγεθος</label>
+            <select id="sizeSelect">
+              <option value="S">S</option>
+              <option value="M" selected>M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="qtyInput">Ποσότητα</label>
+            <input id="qtyInput" type="number" min="1" max="10" value="1" />
+          </div>
+        </div>
+
+        <div class="summary">
+          Τελικό ποσό: <strong id="totalPrice">19,99 €</strong>
+        </div>
+
+        <div class="actions">
+          <a class="btn btn-main" id="revolutPayBtn" href="#" target="_blank" rel="noopener noreferrer">Πληρωμή με Revolut</a>
+          <a class="btn btn-soft" href="index.html#products-title">Συνέχισε αγορές</a>
+        </div>
+
+        <p class="note">Η πληρωμή γίνεται μέσω ασφαλούς συνδέσμου Revolut.</p>
+        <div class="warning" id="revolutWarning">Ρύθμισε το Revolut username στο αρχείο product.html για να λειτουργεί ο σύνδεσμος πληρωμής.</div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const REVOLUT_USERNAME = "giorfoabij";
+
+    const products = {
+      "urban-legend": {
+        name: "Urban Legend",
+        category: "Statement",
+        price: 19.99,
+        image: "assets/icons/a1.png",
+        description: "Καθαρό statement design για δυνατές εμφανίσεις."
+      },
+      "classic-banter": {
+        name: "Classic Banter",
+        category: "Fun",
+        price: 19.99,
+        image: "assets/icons/b1.png",
+        description: "Άνετο και ευκολοφόρετο για κάθε μέρα."
+      },
+      "easy-mode": {
+        name: "Easy Mode",
+        category: "Minimal",
+        price: 19.99,
+        image: "assets/icons/c1.png",
+        description: "Minimal αισθητική και διαχρονικό ύφος."
+      },
+      "one-more-tee": {
+        name: "One More Tee",
+        category: "Fun",
+        price: 19.99,
+        image: "assets/icons/d1.png",
+        description: "Fun χαρακτήρας που τραβάει βλέμματα."
+      },
+      "signature-fit": {
+        name: "Signature Fit",
+        category: "Minimal",
+        price: 19.99,
+        image: "assets/icons/e1.png",
+        description: "Η πιο safe premium επιλογή για καθημερινό look."
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const productKey = params.get("product") || "urban-legend";
+    const selectedProduct = products[productKey] || products["urban-legend"];
+
+    const productName = document.getElementById("productName");
+    const productCategory = document.getElementById("productCategory");
+    const productPrice = document.getElementById("productPrice");
+    const productDescription = document.getElementById("productDescription");
+    const productImage = document.getElementById("productImage");
+    const totalPrice = document.getElementById("totalPrice");
+    const sizeSelect = document.getElementById("sizeSelect");
+    const qtyInput = document.getElementById("qtyInput");
+    const revolutPayBtn = document.getElementById("revolutPayBtn");
+    const revolutWarning = document.getElementById("revolutWarning");
+
+    function formatPrice(value) {
+      return value.toLocaleString("el-GR", { style: "currency", currency: "EUR" });
+    }
+
+    function updatePaymentLink() {
+      const qty = Math.max(1, Number(qtyInput.value) || 1);
+      qtyInput.value = String(qty);
+
+      const amount = selectedProduct.price * qty;
+      totalPrice.textContent = formatPrice(amount);
+
+      const paymentText = `${selectedProduct.name} - Size ${sizeSelect.value} - Qty ${qty}`;
+      const paymentUrl = `https://revolut.me/${encodeURIComponent(REVOLUT_USERNAME)}/${amount.toFixed(2)}?title=${encodeURIComponent(paymentText)}`;
+
+      revolutPayBtn.href = paymentUrl;
+
+      const missingUsername = REVOLUT_USERNAME === "your-revolut-tag";
+      revolutWarning.style.display = missingUsername ? "block" : "none";
+      revolutPayBtn.setAttribute("aria-disabled", missingUsername ? "true" : "false");
+      revolutPayBtn.style.pointerEvents = missingUsername ? "none" : "auto";
+      revolutPayBtn.style.opacity = missingUsername ? "0.65" : "1";
+    }
+
+    productName.textContent = selectedProduct.name;
+    productCategory.textContent = selectedProduct.category;
+    productPrice.textContent = formatPrice(selectedProduct.price);
+    productDescription.textContent = selectedProduct.description;
+    productImage.src = selectedProduct.image;
+    productImage.alt = `${selectedProduct.name} t-shirt`;
+
+    sizeSelect.addEventListener("change", updatePaymentLink);
+    qtyInput.addEventListener("input", updatePaymentLink);
+
+    updatePaymentLink();
+  </script>
+</body>
+</html>
