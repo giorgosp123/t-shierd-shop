@@ -333,10 +333,10 @@
       const qty = Math.max(1, Number(qtyInput.value) || 1);
       qtyInput.value = String(qty);
 
-      const amount = selectedProduct.price * qty;
-      totalPrice.textContent = formatPrice(amount);
+      const amount = selectedProduct.price;
+      totalPrice.textContent = formatPrice(selectedProduct.price * qty);
 
-      const paymentText = `${selectedProduct.name} - Size ${sizeSelect.value} - Qty ${qty}`;
+      const paymentText = `T-Shirt: ${selectedProduct.name} | Size: ${sizeSelect.value} | Qty: ${qty}`;
       const paymentUrl = `https://revolut.me/${encodeURIComponent(REVOLUT_USERNAME)}?amount=${amount.toFixed(2)}&currency=EUR&reference=${encodeURIComponent(paymentText)}`;
 
       revolutPayBtn.href = paymentUrl;
