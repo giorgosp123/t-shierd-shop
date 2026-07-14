@@ -337,7 +337,7 @@
       totalPrice.textContent = formatPrice(amount);
 
       const paymentText = `${selectedProduct.name} - Size ${sizeSelect.value} - Qty ${qty}`;
-      const paymentUrl = `https://revolut.me/${encodeURIComponent(REVOLUT_USERNAME)}/${amount.toFixed(2)}?title=${encodeURIComponent(paymentText)}`;
+      const paymentUrl = `https://revolut.me/${encodeURIComponent(REVOLUT_USERNAME)}?amount=${amount.toFixed(2)}&currency=EUR&reference=${encodeURIComponent(paymentText)}`;
 
       revolutPayBtn.href = paymentUrl;
 
