@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Πολιτική Επιστροφών | Threadline Studio</title>
+  <title>Πολιτική Επιστροφών | Hueman</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9R0CRMF9KV"></script>
   <script>
@@ -217,7 +217,7 @@
 <body>
   <header class="topbar">
     <div class="container nav">
-      <a class="brand" href="index.html">Threadline Studio
+      <a class="brand" href="index.html">Hueman
         <small>Premium T-Shirts for everyday wear</small>
       </a>
       <div class="nav-actions">
@@ -271,7 +271,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p class="footer-main"><strong>Threadline Studio</strong> | Premium t-shirts με καθαρό design, πληρωμή Revolut και αποστολή ACS στην Κύπρο.</p>
+      <p class="footer-main"><strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή Revolut και αποστολή ACS στην Κύπρο.</p>
       <nav class="footer-links" aria-label="Νομικές σελίδες">
         <a href="terms-and-conditions.html">Όροι Χρήσης</a>
         <a href="privacy-policy.html">Πολιτική Απορρήτου</a>
@@ -285,7 +285,7 @@
   <script>
     (() => {
       const languageButtons = document.querySelectorAll("[data-lang-btn]");
-      const languageKey = "threadlineLang";
+      const languageKey = "huemanLang";
       const legalChip = document.getElementById("legalChip");
       const wrap = document.querySelector(".wrap");
       const footerMain = document.querySelector(".footer-main");
@@ -361,13 +361,13 @@
       function applyLanguage(lang) {
         const isEn = lang === "en";
         document.documentElement.lang = isEn ? "en" : "el";
-        document.title = isEn ? "Returns Policy | Threadline Studio" : "Πολιτική Επιστροφών | Threadline Studio";
+        document.title = isEn ? "Returns Policy | Hueman" : "Πολιτική Επιστροφών | Hueman";
         if (legalChip) legalChip.textContent = isEn ? "Legal information" : "Νομική ενημέρωση";
         if (wrap) wrap.innerHTML = isEn ? content.en : content.el;
         if (footerMain) {
           footerMain.innerHTML = isEn
-            ? "<strong>Threadline Studio</strong> | Premium t-shirts with clean design, Revolut payment, and ACS shipping in Cyprus."
-            : "<strong>Threadline Studio</strong> | Premium t-shirts με καθαρό design, πληρωμή Revolut και αποστολή ACS στην Κύπρο.";
+            ? "<strong>Hueman</strong> | Premium t-shirts with clean design, Revolut payment, and ACS shipping in Cyprus."
+            : "<strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή Revolut και αποστολή ACS στην Κύπρο.";
         }
         if (footerLinks.length === 4) {
           footerLinks[0].textContent = isEn ? "Terms and Conditions" : "Όροι Χρήσης";
