@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/cart.css" />
   <style>
     :root {
       --bg: #f6f6f4;
@@ -689,7 +690,10 @@
       </a>
       <div class="nav-actions">
         <span class="chip" id="chipReturns">Δωρεάν αλλαγή 14 ημερών</span>
-        <span class="chip" id="chipPayment">Ασφαλής πληρωμή Revolut</span>
+        <span class="chip" id="chipPayment">Ασφαλής πληρωμή με Visa</span>
+        <button type="button" class="cart-btn" id="cartToggleBtn" data-cart-toggle aria-label="Καλάθι αγορών">
+          🛒<span class="cart-badge" id="cartBadgeProduct" data-cart-badge hidden>0</span>
+        </button>
         <div class="lang-switch" role="group" aria-label="Επιλογή γλώσσας">
           <button type="button" class="lang-btn" data-lang-btn="el" aria-label="Ελληνικά">
             <img src="https://images.emojiterra.com/google/noto-emoji/unicode-17.0/color/svg/1f1ec-1f1f7.svg" alt="GR" />
@@ -733,56 +737,22 @@
           </div>
         </div>
 
-        <div class="address-block reveal-item">
-          <p class="address-title" id="addressTitle">Διεύθυνση Αποστολής</p>
-          <div class="options">
-            <div class="field">
-              <label for="shippingStreet" id="labelStreet">Οδός</label>
-              <input id="shippingStreet" type="text" placeholder="π.χ. Λεωφόρος Μακαρίου Γ'" />
-            </div>
-
-            <div class="field">
-              <label for="shippingNumber" id="labelNumber">Αριθμός</label>
-              <input id="shippingNumber" type="text" placeholder="π.χ. 12" />
-            </div>
-
-            <div class="field">
-              <label for="shippingArea" id="labelArea">Περιοχή</label>
-              <input id="shippingArea" type="text" placeholder="π.χ. Στρόβολος" />
-            </div>
-
-            <div class="field">
-              <label for="shippingPostalCode" id="labelPostalCode">Τ.Κ.</label>
-              <input id="shippingPostalCode" type="text" inputmode="numeric" maxlength="5" placeholder="π.χ. 2008" />
-            </div>
-
-            <div class="field field-full">
-              <label for="shippingCity" id="labelCity">Πόλη</label>
-              <input id="shippingCity" type="text" placeholder="π.χ. Λευκωσία" />
-            </div>
-          </div>
-        </div>
-
         <div class="summary reveal-item">
           <span id="totalLabel">Τελικό ποσό:</span> <strong id="totalPrice">19,99 €</strong>
         </div>
 
         <div class="actions reveal-item">
-          <a class="btn btn-main" id="revolutPayBtn" href="#">Πληρωμή με Revolut</a>
+          <button type="button" class="btn btn-main" id="addToCartBtn">Πρόσθεσε στο καλάθι</button>
           <a class="btn btn-soft" id="continueShopping" href="index.html#products-title">Συνέχισε αγορές</a>
         </div>
 
-        <p class="note" id="noteSecure">Η πληρωμή γίνεται μέσω ασφαλούς συνδέσμου Revolut.</p>
-        <p class="note"><strong id="noteOrderLabel">Σημείωση παραγγελίας:</strong> <span id="paymentNotePreview">-</span></p>
-        <p class="note" id="noteCopy">* Η παραπάνω σημείωση γίνεται αυτόματα copy και την κάνετε paste στο Revolut note.</p>
-        <div class="warning" id="revolutWarning">Ρύθμισε το Revolut username στο αρχείο product.html για να λειτουργεί ο σύνδεσμος πληρωμής.</div>
-        <div class="warning" id="addressWarning">Συμπλήρωσε όλα τα πεδία διεύθυνσης (οδός, αριθμός, περιοχή, Τ.Κ., πόλη) πριν την πληρωμή.</div>
+        <p class="note" id="noteSecure">Η πληρωμή ολοκληρώνεται με ασφαλές link κάρτας (Visa) μέσα από το καλάθι.</p>
         <div class="process-box reveal-item">
           <h3 id="processTitle">Διαδικασία Παραγγελίας</h3>
           <ol class="process-steps">
-            <li class="process-step"><b>1</b><span id="process1">Συμπλήρωσε μέγεθος, ποσότητα και διεύθυνση αποστολής.</span></li>
-            <li class="process-step"><b>2</b><span id="process2">Πάτησε «Πληρωμή με Revolut» και κάνε paste τη «Σημείωση παραγγελίας» στα notes.</span></li>
-            <li class="process-step"><b>3</b><span id="process3">Ολοκλήρωσε πληρωμή 19,99 €.</span></li>
+            <li class="process-step"><b>1</b><span id="process1">Συμπλήρωσε μέγεθος και ποσότητα.</span></li>
+            <li class="process-step"><b>2</b><span id="process2">Πρόσθεσε το προϊόν στο καλάθι σου.</span></li>
+            <li class="process-step"><b>3</b><span id="process3">Άνοιξε το καλάθι, συμπλήρωσε διεύθυνση και πλήρωσε με Visa.</span></li>
             <li class="process-step"><b>4</b><span id="process4">Μετά την πληρωμή, η αποστολή γίνεται εντός 5 ημερών μέσω ACS.</span></li>
           </ol>
         </div>
@@ -793,7 +763,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p class="footer-main" id="footerMain"><strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή Revolut και αποστολή ACS στην Κύπρο.</p>
+      <p class="footer-main" id="footerMain"><strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή με Visa και αποστολή ACS στην Κύπρο.</p>
       <nav class="footer-links" aria-label="Νομικές σελίδες">
         <a href="terms-and-conditions.html" id="linkTerms">Όροι Χρήσης</a>
         <a href="privacy-policy.html" id="linkPrivacy">Πολιτική Απορρήτου</a>
@@ -803,8 +773,8 @@
     </div>
   </footer>
 
+  <script src="assets/js/cart.js"></script>
   <script>
-    const REVOLUT_USERNAME = "giorfoabij";
     const languageButtons = document.querySelectorAll("[data-lang-btn]");
     const languageKey = "huemanLang";
     let currentLanguage = localStorage.getItem(languageKey) === "en" ? "en" : "el";
@@ -813,86 +783,50 @@
       el: {
         title: "Προϊόν | Hueman",
         chipReturns: "Δωρεάν αλλαγή 14 ημερών",
-        chipPayment: "Ασφαλής πληρωμή Revolut",
-        backLink: "← Επιστροφή στη συλλογή",
+        chipPayment: "Ασφαλής πληρωμή με Visa",
         labelSize: "Μέγεθος",
         labelQty: "Ποσότητα",
-        addressTitle: "Διεύθυνση Αποστολής",
-        labelStreet: "Οδός",
-        labelNumber: "Αριθμός",
-        labelArea: "Περιοχή",
-        labelPostalCode: "Τ.Κ.",
-        labelCity: "Πόλη",
         totalLabel: "Τελικό ποσό:",
-        payBtn: "Πληρωμή με Revolut",
+        payBtn: "Πρόσθεσε στο καλάθι",
         continueShopping: "Συνέχισε αγορές",
-        noteSecure: "Η πληρωμή γίνεται μέσω ασφαλούς συνδέσμου Revolut.",
-        noteOrderLabel: "Σημείωση παραγγελίας:",
-        noteCopy: "* Η παραπάνω σημείωση γίνεται αυτόματα copy και την κάνετε paste στο Revolut note.",
-        revolutWarning: "Ρύθμισε το Revolut username στο αρχείο product.html για να λειτουργεί ο σύνδεσμος πληρωμής.",
-        addressWarning: "Συμπλήρωσε όλα τα πεδία διεύθυνσης (οδός, αριθμός, περιοχή, Τ.Κ., πόλη) πριν την πληρωμή.",
+        noteSecure: "Η πληρωμή ολοκληρώνεται με ασφαλές link κάρτας (Visa) μέσα από το καλάθι.",
         processTitle: "Διαδικασία Παραγγελίας",
-        process1: "Συμπλήρωσε μέγεθος, ποσότητα και διεύθυνση αποστολής.",
-        process2: "Πάτησε «Πληρωμή με Revolut» και κάνε paste τη «Σημείωση παραγγελίας» στα notes.",
-        process3: "Ολοκλήρωσε πληρωμή 19,99 €.",
+        process1: "Συμπλήρωσε μέγεθος και ποσότητα.",
+        process2: "Πρόσθεσε το προϊόν στο καλάθι σου.",
+        process3: "Άνοιξε το καλάθι, συμπλήρωσε διεύθυνση και πλήρωσε με Visa.",
         process4: "Μετά την πληρωμή, η αποστολή γίνεται εντός 5 ημερών μέσω ACS.",
-        footerMain: "<strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή Revolut και αποστολή ACS στην Κύπρο.",
+        footerMain: "<strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή με Visa και αποστολή ACS στην Κύπρο.",
         linkTerms: "Όροι Χρήσης",
         linkPrivacy: "Πολιτική Απορρήτου",
         linkReturns: "Πολιτική Επιστροφών",
         linkCookies: "Πολιτική Cookies",
         cookieText: "Χρησιμοποιούμε cookies για σωστή λειτουργία της σελίδας. Για να συνεχίσεις, πρέπει να αποδεχτείς τους <a href=\"terms-and-conditions.html\">Όρους Χρήσης</a> και την <a href=\"privacy-policy.html\">Πολιτική Απορρήτου</a>.",
         acceptCookiesBtn: "Αποδέχομαι",
-        langAria: "Επιλογή γλώσσας",
-        placeholders: {
-          shippingStreet: "π.χ. Λεωφόρος Μακαρίου Γ'",
-          shippingNumber: "π.χ. 12",
-          shippingArea: "π.χ. Στρόβολος",
-          shippingPostalCode: "π.χ. 2008",
-          shippingCity: "π.χ. Λευκωσία"
-        }
+        langAria: "Επιλογή γλώσσας"
       },
       en: {
         title: "Product | Hueman",
         chipReturns: "Free exchange within 14 days",
-        chipPayment: "Secure Revolut payment",
-        backLink: "← Back to collection",
+        chipPayment: "Secure Visa payment",
         labelSize: "Size",
         labelQty: "Quantity",
-        addressTitle: "Shipping Address",
-        labelStreet: "Street",
-        labelNumber: "Number",
-        labelArea: "Area",
-        labelPostalCode: "Postal Code",
-        labelCity: "City",
         totalLabel: "Total amount:",
-        payBtn: "Pay with Revolut",
+        payBtn: "Add to cart",
         continueShopping: "Continue shopping",
-        noteSecure: "Payment is completed through a secure Revolut link.",
-        noteOrderLabel: "Order note:",
-        noteCopy: "* The note above is copied automatically for paste in the Revolut note field.",
-        revolutWarning: "Set your Revolut username in product.html so the payment link can work.",
-        addressWarning: "Fill in all address fields (street, number, area, postal code, city) before payment.",
+        noteSecure: "Payment is completed through a secure card (Visa) link from your cart.",
         processTitle: "Order Process",
-        process1: "Fill in size, quantity, and shipping address.",
-        process2: "Press 'Pay with Revolut' and paste the 'Order note' into Revolut notes.",
-        process3: "Complete payment of €19.99.",
+        process1: "Fill in size and quantity.",
+        process2: "Add the product to your cart.",
+        process3: "Open the cart, fill in the address, and pay with Visa.",
         process4: "After payment, shipping is completed within 5 days via ACS.",
-        footerMain: "<strong>Hueman</strong> | Premium t-shirts with clean design, Revolut payment, and ACS shipping in Cyprus.",
+        footerMain: "<strong>Hueman</strong> | Premium t-shirts with clean design, Visa payment, and ACS shipping in Cyprus.",
         linkTerms: "Terms and Conditions",
         linkPrivacy: "Privacy Policy",
         linkReturns: "Returns Policy",
         linkCookies: "Cookies Policy",
         cookieText: "We use cookies for proper website functionality. To continue, you need to accept the <a href=\"terms-and-conditions.html\">Terms and Conditions</a> and the <a href=\"privacy-policy.html\">Privacy Policy</a>.",
         acceptCookiesBtn: "I Accept",
-        langAria: "Language selection",
-        placeholders: {
-          shippingStreet: "e.g. Makariou Avenue III",
-          shippingNumber: "e.g. 12",
-          shippingArea: "e.g. Strovolos",
-          shippingPostalCode: "e.g. 2008",
-          shippingCity: "e.g. Nicosia"
-        }
+        langAria: "Language selection"
       }
     };
 
@@ -961,15 +895,7 @@
     const totalPrice = document.getElementById("totalPrice");
     const sizeSelect = document.getElementById("sizeSelect");
     const qtyInput = document.getElementById("qtyInput");
-    const shippingStreet = document.getElementById("shippingStreet");
-    const shippingNumber = document.getElementById("shippingNumber");
-    const shippingArea = document.getElementById("shippingArea");
-    const shippingPostalCode = document.getElementById("shippingPostalCode");
-    const shippingCity = document.getElementById("shippingCity");
-    const revolutPayBtn = document.getElementById("revolutPayBtn");
-    const revolutWarning = document.getElementById("revolutWarning");
-    const addressWarning = document.getElementById("addressWarning");
-    const paymentNotePreview = document.getElementById("paymentNotePreview");
+    const addToCartBtn = document.getElementById("addToCartBtn");
     const revealItems = document.querySelectorAll(".reveal-item");
 
     function formatPrice(value) {
@@ -991,10 +917,9 @@
       document.title = texts.title;
 
       [
-        "chipReturns", "chipPayment", "backLink", "labelSize", "labelQty", "addressTitle",
-        "labelStreet", "labelNumber", "labelArea", "labelPostalCode", "labelCity",
-        "totalLabel", "noteSecure", "noteOrderLabel", "noteCopy", "revolutWarning",
-        "addressWarning", "processTitle", "process1", "process2", "process3", "process4",
+        "chipReturns", "chipPayment", "labelSize", "labelQty",
+        "totalLabel", "noteSecure",
+        "processTitle", "process1", "process2", "process3", "process4",
         "footerMain", "linkTerms", "linkPrivacy", "linkReturns", "linkCookies"
       ].forEach((id) => {
         const el = document.getElementById(id);
@@ -1006,16 +931,9 @@
       const acceptCookiesBtn = document.getElementById("acceptCookiesBtn");
       if (acceptCookiesBtn) acceptCookiesBtn.textContent = texts.acceptCookiesBtn;
 
-      const payBtn = document.getElementById("revolutPayBtn");
-      if (payBtn) payBtn.textContent = texts.payBtn;
+      if (addToCartBtn) addToCartBtn.textContent = texts.payBtn;
       const continueShopping = document.getElementById("continueShopping");
       if (continueShopping) continueShopping.textContent = texts.continueShopping;
-
-      shippingStreet.placeholder = texts.placeholders.shippingStreet;
-      shippingNumber.placeholder = texts.placeholders.shippingNumber;
-      shippingArea.placeholder = texts.placeholders.shippingArea;
-      shippingPostalCode.placeholder = texts.placeholders.shippingPostalCode;
-      shippingCity.placeholder = texts.placeholders.shippingCity;
 
       languageButtons.forEach((btn) => {
         const isActive = btn.dataset.langBtn === currentLanguage;
@@ -1028,53 +946,14 @@
       productDescription.textContent = textFor(selectedProduct.description);
       productImage.alt = `${textFor(selectedProduct.name)} t-shirt`;
 
-      updatePaymentLink();
+      if (window.HuemanCart) window.HuemanCart.refreshLanguage();
+      updateTotal();
     }
 
-    function getAddressParts() {
-      return {
-        street: shippingStreet.value.trim(),
-        number: shippingNumber.value.trim(),
-        area: shippingArea.value.trim(),
-        postalCode: shippingPostalCode.value.trim(),
-        city: shippingCity.value.trim()
-      };
-    }
-
-    function isAddressComplete(address) {
-      return Boolean(
-        address.street &&
-        address.number &&
-        address.area &&
-        address.postalCode &&
-        address.city
-      );
-    }
-
-    function updatePaymentLink() {
+    function updateTotal() {
       const qty = Math.max(1, Number(qtyInput.value) || 1);
       qtyInput.value = String(qty);
-      const address = getAddressParts();
-      const addressText = `${address.street} ${address.number}, ${address.area}, ${address.postalCode}, ${address.city}`;
-
       totalPrice.textContent = formatPrice(selectedProduct.price * qty);
-
-      const sizeLabel = currentLanguage === "en" ? "Size" : "Μέγεθος";
-      const qtyLabel = currentLanguage === "en" ? "Qty" : "Ποσότητα";
-      const addressLabel = currentLanguage === "en" ? "Address" : "Διεύθυνση";
-      const paymentText = `T-Shirt ${textFor(selectedProduct.name)} | ${sizeLabel} ${sizeSelect.value} | ${qtyLabel} ${qty} | ${addressLabel} ${isAddressComplete(address) ? addressText : "-"}`;
-      const normalizedUsername = REVOLUT_USERNAME.trim().replace(/^@+/, "");
-      const paymentUrl = `https://revolut.me/${normalizedUsername}`;
-
-      revolutPayBtn.href = paymentUrl;
-      revolutPayBtn.dataset.paymentNote = paymentText;
-      paymentNotePreview.textContent = paymentText;
-
-      const missingUsername = REVOLUT_USERNAME === "your-revolut-tag";
-      revolutWarning.style.display = missingUsername ? "block" : "none";
-      revolutPayBtn.setAttribute("aria-disabled", missingUsername ? "true" : "false");
-      revolutPayBtn.style.pointerEvents = missingUsername ? "none" : "auto";
-      revolutPayBtn.style.opacity = missingUsername ? "0.65" : "1";
     }
 
     productName.textContent = textFor(selectedProduct.name);
@@ -1084,42 +963,13 @@
     productImage.src = selectedProduct.image;
     productImage.alt = `${textFor(selectedProduct.name)} t-shirt`;
 
-    sizeSelect.addEventListener("change", updatePaymentLink);
-    qtyInput.addEventListener("input", updatePaymentLink);
-    shippingStreet.addEventListener("input", updatePaymentLink);
-    shippingNumber.addEventListener("input", updatePaymentLink);
-    shippingArea.addEventListener("input", updatePaymentLink);
-    shippingPostalCode.addEventListener("input", updatePaymentLink);
-    shippingCity.addEventListener("input", updatePaymentLink);
+    sizeSelect.addEventListener("change", updateTotal);
+    qtyInput.addEventListener("input", updateTotal);
 
-    revolutPayBtn.addEventListener("click", async (event) => {
-      const paymentNote = revolutPayBtn.dataset.paymentNote || "";
-      const address = getAddressParts();
-
-      if (!isAddressComplete(address)) {
-        event.preventDefault();
-        addressWarning.style.display = "block";
-        if (!address.street) {
-          shippingStreet.focus();
-        } else if (!address.number) {
-          shippingNumber.focus();
-        } else if (!address.area) {
-          shippingArea.focus();
-        } else if (!address.postalCode) {
-          shippingPostalCode.focus();
-        } else {
-          shippingCity.focus();
-        }
-        return;
-      }
-
-      addressWarning.style.display = "none";
-      if (!paymentNote) return;
-
-      try {
-        await navigator.clipboard.writeText(paymentNote);
-      } catch {
-        // Clipboard can be blocked in some browsers; no hard failure on payment flow.
+    addToCartBtn.addEventListener("click", () => {
+      const qty = Math.max(1, Number(qtyInput.value) || 1);
+      if (window.HuemanCart) {
+        window.HuemanCart.addToCart(productKey, sizeSelect.value, qty);
       }
     });
 

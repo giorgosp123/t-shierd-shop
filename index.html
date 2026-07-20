@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/cart.css" />
   <style>
     :root {
       --bg: #f6f6f4;
@@ -1006,7 +1007,10 @@
       </h1>
       <div class="nav-actions">
         <span class="chip" id="chipReturns">Δωρεάν αλλαγή 14 ημερών</span>
-        <span class="chip" id="chipPayment">Ασφαλής πληρωμή Revolut</span>
+        <span class="chip" id="chipPayment">Ασφαλής πληρωμή με Visa</span>
+        <button type="button" class="cart-btn" id="cartToggleBtn" data-cart-toggle aria-label="Καλάθι αγορών">
+          🛒<span class="cart-badge" id="cartBadgeIndex" data-cart-badge hidden>0</span>
+        </button>
         <div class="lang-switch" role="group" aria-label="Επιλογή γλώσσας">
           <button type="button" class="lang-btn" data-lang-btn="el" aria-label="Ελληνικά">
             <img src="https://images.emojiterra.com/google/noto-emoji/unicode-17.0/color/svg/1f1ec-1f1f7.svg" alt="GR" />
@@ -1034,7 +1038,7 @@
         <div class="trust-item reveal-item"><strong id="trust1Title">Αποστολή μέσω ACS</strong><span id="trust1Text">Εντός 5 ημερών σε όλη την Κύπρο</span></div>
         <div class="trust-item reveal-item"><strong id="trust2Title">100% βαμβάκι</strong><span id="trust2Text">Άνετη εφαρμογή</span></div>
         <div class="trust-item reveal-item"><strong id="trust3Title">19,99 € όλα</strong><span id="trust3Text">Καθαρή τιμή</span></div>
-        <div class="trust-item reveal-item"><strong id="trust4Title">Σημείωση παραγγελίας</strong><span id="trust4Text">Αυτόματο copy για paste στο Revolut note</span></div>
+        <div class="trust-item reveal-item"><strong id="trust4Title">Καλάθι & Visa</strong><span id="trust4Text">Πρόσθεσε στο καλάθι και πλήρωσε με Visa</span></div>
       </div>
     </section>
 
@@ -1121,8 +1125,8 @@
         <h3 id="steps-heading">Πώς αγοράζεις σε 4 βήματα</h3>
         <div class="step-grid">
           <article class="step reveal-item"><b>1</b><strong id="step1Title">Διάλεξε σχέδιο</strong><span id="step1Text">Επίλεξε αυτό που ταιριάζει στο στιλ σου.</span></article>
-          <article class="step reveal-item"><b>2</b><strong id="step2Title">Συμπλήρωσε στοιχεία</strong><span id="step2Text">Μέγεθος, ποσότητα και πλήρη διεύθυνση αποστολής Κύπρου.</span></article>
-          <article class="step reveal-item"><b>3</b><strong id="step3Title">Πληρωμή με Revolut</strong><span id="step3Text">Γίνεται αυτόματο copy της σημείωσης και paste στο Revolut note.</span></article>
+          <article class="step reveal-item"><b>2</b><strong id="step2Title">Πρόσθεσε στο καλάθι</strong><span id="step2Text">Διάλεξε μέγεθος και ποσότητα και πρόσθεσέ το στο καλάθι σου.</span></article>
+          <article class="step reveal-item"><b>3</b><strong id="step3Title">Πληρωμή με Visa</strong><span id="step3Text">Ολοκλήρωσε την πληρωμή με ασφαλές link κάρτας (Visa).</span></article>
           <article class="step reveal-item"><b>4</b><strong id="step4Title">Αποστολή ACS</strong><span id="step4Text">Μετά την πληρωμή, η αποστολή γίνεται εντός 5 ημερών.</span></article>
         </div>
       </div>
@@ -1131,7 +1135,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p class="footer-main" id="footerMain"><strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή Revolut και αποστολή ACS στην Κύπρο.</p>
+      <p class="footer-main" id="footerMain"><strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή με Visa και αποστολή ACS στην Κύπρο.</p>
       <nav class="footer-links" aria-label="Νομικές σελίδες">
         <a href="terms-and-conditions.html" id="linkTerms">Όροι Χρήσης</a>
         <a href="privacy-policy.html" id="linkPrivacy">Πολιτική Απορρήτου</a>
@@ -1141,6 +1145,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/cart.js"></script>
   <script>
     const filterButtons = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.card');
@@ -1263,7 +1268,7 @@
       el: {
         title: 'Hueman | Premium T-Shirts',
         chipReturns: 'Δωρεάν αλλαγή 14 ημερών',
-        chipPayment: 'Ασφαλής πληρωμή Revolut',
+        chipPayment: 'Ασφαλής πληρωμή με Visa',
         heroTitle: 'Essential <span>T-Shirts</span>',
         heroSubtitle: 'Καθαρή γραμμή.<br />Σταθερή τιμή<br /><span class="hero-price">19,99&nbsp;€.</span>',
         trust1Title: 'Αποστολή μέσω ACS',
@@ -1272,8 +1277,8 @@
         trust2Text: 'Άνετη εφαρμογή',
         trust3Title: '19,99 € όλα',
         trust3Text: 'Καθαρή τιμή',
-        trust4Title: 'Σημείωση παραγγελίας',
-        trust4Text: 'Αυτόματο copy για paste στο Revolut note',
+        trust4Title: 'Καλάθι & Visa',
+        trust4Text: 'Πρόσθεσε στο καλάθι και πλήρωσε με Visa',
         'products-heading': 'Η συλλογή',
         productsSub: '5 σχέδια με ίδια τιμή και άμεση διαθεσιμότητα.',
         filterAll: 'Όλα',
@@ -1288,13 +1293,13 @@
         'steps-heading': 'Πώς αγοράζεις σε 4 βήματα',
         step1Title: 'Διάλεξε σχέδιο',
         step1Text: 'Επίλεξε αυτό που ταιριάζει στο στιλ σου.',
-        step2Title: 'Συμπλήρωσε στοιχεία',
-        step2Text: 'Μέγεθος, ποσότητα και πλήρη διεύθυνση αποστολής Κύπρου.',
-        step3Title: 'Πληρωμή με Revolut',
-        step3Text: 'Γίνεται αυτόματο copy της σημείωσης και paste στο Revolut note.',
+        step2Title: 'Πρόσθεσε στο καλάθι',
+        step2Text: 'Διάλεξε μέγεθος και ποσότητα και πρόσθεσέ το στο καλάθι σου.',
+        step3Title: 'Πληρωμή με Visa',
+        step3Text: 'Ολοκλήρωσε την πληρωμή με ασφαλές link κάρτας (Visa).',
         step4Title: 'Αποστολή ACS',
         step4Text: 'Μετά την πληρωμή, η αποστολή γίνεται εντός 5 ημερών.',
-        footerMain: '<strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή Revolut και αποστολή ACS στην Κύπρο.',
+        footerMain: '<strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή με Visa και αποστολή ACS στην Κύπρο.',
         linkTerms: 'Όροι Χρήσης',
         linkPrivacy: 'Πολιτική Απορρήτου',
         linkReturns: 'Πολιτική Επιστροφών',
@@ -1306,7 +1311,7 @@
       en: {
         title: 'Hueman | Premium T-Shirts',
         chipReturns: 'Free exchange within 14 days',
-        chipPayment: 'Secure Revolut payment',
+        chipPayment: 'Secure Visa payment',
         heroTitle: 'Essential <span>T-Shirts</span>',
         heroSubtitle: 'Clean lines.<br />Stable price<br /><span class="hero-price">€19.99</span>',
         trust1Title: 'Shipping via ACS',
@@ -1315,8 +1320,8 @@
         trust2Text: 'Comfortable fit',
         trust3Title: '€19.99 all designs',
         trust3Text: 'Transparent pricing',
-        trust4Title: 'Order note',
-        trust4Text: 'Automatic copy for paste in Revolut note',
+        trust4Title: 'Cart & Visa',
+        trust4Text: 'Add to cart and pay with Visa',
         'products-heading': 'The Collection',
         productsSub: '5 designs with the same price and instant availability.',
         filterAll: 'All',
@@ -1331,13 +1336,13 @@
         'steps-heading': 'How to buy in 4 steps',
         step1Title: 'Choose a design',
         step1Text: 'Pick the one that matches your style.',
-        step2Title: 'Fill in details',
-        step2Text: 'Size, quantity, and full Cyprus shipping address.',
-        step3Title: 'Pay with Revolut',
-        step3Text: 'The order note is copied automatically for the Revolut note field.',
+        step2Title: 'Add to cart',
+        step2Text: 'Pick a size and quantity and add it to your cart.',
+        step3Title: 'Pay with Visa',
+        step3Text: 'Complete payment through a secure card (Visa) link.',
         step4Title: 'ACS delivery',
         step4Text: 'After payment, shipping is completed within 5 days.',
-        footerMain: '<strong>Hueman</strong> | Premium t-shirts with clean design, Revolut payment, and ACS shipping in Cyprus.',
+        footerMain: '<strong>Hueman</strong> | Premium t-shirts with clean design, Visa payment, and ACS shipping in Cyprus.',
         linkTerms: 'Terms and Conditions',
         linkPrivacy: 'Privacy Policy',
         linkReturns: 'Returns Policy',
@@ -1365,6 +1370,8 @@
         btn.classList.toggle('active', isActive);
         btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       });
+
+      if (window.HuemanCart) window.HuemanCart.refreshLanguage();
     }
 
     const savedLanguage = localStorage.getItem(languageKey);
