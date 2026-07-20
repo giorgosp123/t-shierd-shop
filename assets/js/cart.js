@@ -6,13 +6,15 @@
  * Payment: checkout is handled by a Stripe Checkout Session created on the
  * fly by the Netlify function in netlify/functions/create-checkout-session.js.
  * That function receives the exact cart items/quantities and builds the
- * session server-side, so the price the customer pays always matches what
- * they selected on this page (unlike a static Payment Link, which can't be
- * prefilled with a quantity).
+ * session server-side, so the customer only picks quantity once (in this
+ * cart) and Stripe already shows the right total.
  *
- * SETUP REQUIRED: deploy this site to Netlify and set the STRIPE_SECRET_KEY
- * environment variable in the Netlify site dashboard (Site configuration >
- * Environment variables). See netlify/functions/create-checkout-session.js.
+ * SETUP REQUIRED:
+ *  1. Set CHECKOUT_ENDPOINT below to your deployed Netlify function URL.
+ *  2. Deploy netlify/functions/create-checkout-session.js to Netlify and set
+ *     the STRIPE_SECRET_KEY environment variable in the Netlify dashboard.
+ * This works even though the site itself is hosted on GitHub Pages, since
+ * CHECKOUT_ENDPOINT is a full URL pointing at the Netlify function.
  */
 (function () {
   "use strict";
@@ -21,7 +23,7 @@
   const ADDRESS_KEY = "huemanAddress";
   const LANG_KEY = "huemanLang";
 
-  const CHECKOUT_ENDPOINT = "/.netlify/functions/create-checkout-session";
+  const CHECKOUT_ENDPOINT = "https://hue-man.netlify.app/.netlify/functions/create-checkout-session";
 
   const CATALOG = {
     "urban-legend": { name: { el: "Urban Legend", en: "Urban Legend" }, price: 19.99, image: "assets/icons/a1.png" },
