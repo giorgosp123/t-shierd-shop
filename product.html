@@ -19,6 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/cart.css" />
+  <link rel="stylesheet" href="assets/css/payment-methods.css" />
   <style>
     :root {
       --bg: #f6f6f4;
@@ -249,6 +250,43 @@
       transform: scale(1.045) rotate(-1deg);
     }
 
+    .gallery-thumbs {
+      margin-top: 0.55rem;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.45rem;
+    }
+
+    .gallery-thumb {
+      border: 1px solid #d8d8d5;
+      border-radius: 10px;
+      background: #ffffff;
+      padding: 0.25rem;
+      cursor: pointer;
+      transition: border-color 180ms ease, transform 180ms ease;
+    }
+
+    .gallery-thumb img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #f5f5f3;
+    }
+
+    .gallery-thumb.is-active {
+      border-color: #151515;
+      box-shadow: inset 0 0 0 1px #151515;
+    }
+
+    .gallery-thumb:hover,
+    .gallery-thumb:focus-visible {
+      transform: translateY(-1px);
+      border-color: #9b9b97;
+      outline: none;
+    }
+
     .eyebrow {
       margin: 0;
       display: inline-flex;
@@ -428,54 +466,6 @@
       font-size: 0.83rem;
       display: none;
       animation: fadeUp 220ms ease both;
-    }
-
-    .process-box {
-      margin-top: 0.8rem;
-      border: 1px solid #d8e1d4;
-      border-radius: 10px;
-      background: #fbfdf9;
-      padding: 0.75rem;
-      color: var(--muted);
-      font-size: 0.83rem;
-    }
-
-    .process-box h3 {
-      margin: 0 0 0.45rem;
-      color: var(--ink);
-      font-size: 0.94rem;
-      font-family: "Space Grotesk", sans-serif;
-    }
-
-    .process-steps {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 0.4rem;
-    }
-
-    .process-step {
-      display: grid;
-      grid-template-columns: 24px 1fr;
-      gap: 0.45rem;
-      align-items: start;
-    }
-
-    .process-step b {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: inline-grid;
-      place-items: center;
-      background: #efefec;
-      color: var(--brand);
-      font-size: 0.75rem;
-    }
-
-    .process-step span {
-      display: block;
-      padding-top: 0.15rem;
     }
 
     .footer {
@@ -661,12 +651,6 @@
       }
     }
 
-    @media (max-width: 520px) {
-      #chipPayment {
-        display: none;
-      }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -690,7 +674,6 @@
       </a>
       <div class="nav-actions">
         <span class="chip" id="chipReturns">Δωρεάν αλλαγή 14 ημερών</span>
-        <span class="chip" id="chipPayment">Ασφαλής πληρωμή με Visa</span>
         <button type="button" class="cart-btn" id="cartToggleBtn" data-cart-toggle aria-label="Καλάθι αγορών">
           🛒<span class="cart-badge" id="cartBadgeProduct" data-cart-badge hidden>0</span>
         </button>
@@ -709,8 +692,11 @@
   <main class="page">
     <div class="container">
       <div class="product-shell">
-        <div class="media">
-          <img id="productImage" src="assets/icons/a1.png" alt="T-shirt προϊόν" />
+        <div>
+          <div class="media">
+            <img id="productImage" src="assets/icons/a1.png" alt="T-shirt προϊόν" />
+          </div>
+          <div class="gallery-thumbs" id="productThumbs" aria-label="Εικόνες προϊόντος"></div>
         </div>
 
         <section class="reveal-item">
@@ -747,15 +733,6 @@
         </div>
 
         <p class="note" id="noteSecure">Η πληρωμή ολοκληρώνεται με ασφαλές link κάρτας (Visa) μέσα από το καλάθι.</p>
-        <div class="process-box reveal-item">
-          <h3 id="processTitle">Διαδικασία Παραγγελίας</h3>
-          <ol class="process-steps">
-            <li class="process-step"><b>1</b><span id="process1">Συμπλήρωσε μέγεθος και ποσότητα.</span></li>
-            <li class="process-step"><b>2</b><span id="process2">Πρόσθεσε το προϊόν στο καλάθι σου.</span></li>
-            <li class="process-step"><b>3</b><span id="process3">Άνοιξε το καλάθι, συμπλήρωσε διεύθυνση και πλήρωσε με Visa.</span></li>
-            <li class="process-step"><b>4</b><span id="process4">Μετά την πληρωμή, η αποστολή γίνεται εντός 5 ημερών μέσω ACS.</span></li>
-          </ol>
-        </div>
         </section>
       </div>
     </div>
@@ -764,15 +741,42 @@
   <footer class="footer">
     <div class="container">
       <p class="footer-main" id="footerMain"><strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή με Visa και αποστολή ACS στην Κύπρο.</p>
-      <nav class="footer-links" aria-label="Νομικές σελίδες">
-        <a href="terms-and-conditions.html" id="linkTerms">Όροι Χρήσης</a>
-        <a href="privacy-policy.html" id="linkPrivacy">Πολιτική Απορρήτου</a>
-        <a href="returns-policy.html" id="linkReturns">Πολιτική Επιστροφών</a>
-        <a href="cookies-policy.html" id="linkCookies">Πολιτική Cookies</a>
-      </nav>
+      <section class="commerce-panels" aria-label="Μέθοδοι παράδοσης και πληρωμής">
+        <div class="commerce-column">
+          <h4 class="commerce-title">Μέθοδοι παράδοσης</h4>
+          <p class="commerce-line">Courier</p>
+          <p class="commerce-line">Σημεία παραλαβής δεμάτων</p>
+          <ul class="delivery-badges" aria-label="Delivery options">
+            <li class="delivery-badge"><img src="assets/icons/acs.svg" alt="ACS" loading="lazy" decoding="async" /></li>
+            <li class="delivery-badge"><img src="assets/icons/box-now.svg" alt="BOX NOW" loading="lazy" decoding="async" /></li>
+          </ul>
+        </div>
+        <div class="commerce-column">
+          <h4 class="commerce-title">Μέθοδοι πληρωμής</h4>
+          <p class="commerce-line">Ηλεκτρονική πληρωμή</p>
+          <p class="commerce-line">Αντικαταβολή</p>
+          <ul class="payment-badges" aria-label="Payment options">
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/mastercard.svg" alt="Mastercard" loading="lazy" decoding="async" /></li>
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/visa.svg" alt="Visa" loading="lazy" decoding="async" /></li>
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/maestro.svg" alt="Maestro" loading="lazy" decoding="async" /></li>
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/diners.svg" alt="Diners" loading="lazy" decoding="async" /></li>
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/americanexpress.svg" alt="American Express" loading="lazy" decoding="async" /></li>
+          </ul>
+        </div>
+        <div class="commerce-column">
+          <h4 class="commerce-title">Νομικές πληροφορίες</h4>
+          <nav class="footer-links commerce-links" aria-label="Νομικές σελίδες">
+            <a href="terms-and-conditions.html" id="linkTerms">Όροι Χρήσης</a>
+            <a href="privacy-policy.html" id="linkPrivacy">Πολιτική Απορρήτου</a>
+            <a href="returns-policy.html" id="linkReturns">Πολιτική Επιστροφών</a>
+            <a href="cookies-policy.html" id="linkCookies">Πολιτική Cookies</a>
+          </nav>
+        </div>
+      </section>
     </div>
   </footer>
 
+  <script src="assets/js/product-catalog.js"></script>
   <script src="assets/js/cart.js"></script>
   <script>
     const languageButtons = document.querySelectorAll("[data-lang-btn]");
@@ -783,18 +787,12 @@
       el: {
         title: "Προϊόν | Hueman",
         chipReturns: "Δωρεάν αλλαγή 14 ημερών",
-        chipPayment: "Ασφαλής πληρωμή με Visa",
         labelSize: "Μέγεθος",
         labelQty: "Ποσότητα",
         totalLabel: "Τελικό ποσό:",
         payBtn: "Πρόσθεσε στο καλάθι",
         continueShopping: "Συνέχισε αγορές",
         noteSecure: "Η πληρωμή ολοκληρώνεται με ασφαλές link κάρτας (Visa) μέσα από το καλάθι.",
-        processTitle: "Διαδικασία Παραγγελίας",
-        process1: "Συμπλήρωσε μέγεθος και ποσότητα.",
-        process2: "Πρόσθεσε το προϊόν στο καλάθι σου.",
-        process3: "Άνοιξε το καλάθι, συμπλήρωσε διεύθυνση και πλήρωσε με Visa.",
-        process4: "Μετά την πληρωμή, η αποστολή γίνεται εντός 5 ημερών μέσω ACS.",
         footerMain: "<strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή με Visa και αποστολή ACS στην Κύπρο.",
         linkTerms: "Όροι Χρήσης",
         linkPrivacy: "Πολιτική Απορρήτου",
@@ -807,18 +805,12 @@
       en: {
         title: "Product | Hueman",
         chipReturns: "Free exchange within 14 days",
-        chipPayment: "Secure Visa payment",
         labelSize: "Size",
         labelQty: "Quantity",
         totalLabel: "Total amount:",
         payBtn: "Add to cart",
         continueShopping: "Continue shopping",
         noteSecure: "Payment is completed through a secure card (Visa) link from your cart.",
-        processTitle: "Order Process",
-        process1: "Fill in size and quantity.",
-        process2: "Add the product to your cart.",
-        process3: "Open the cart, fill in the address, and pay with Visa.",
-        process4: "After payment, shipping is completed within 5 days via ACS.",
         footerMain: "<strong>Hueman</strong> | Premium t-shirts with clean design, Visa payment, and ACS shipping in Cyprus.",
         linkTerms: "Terms and Conditions",
         linkPrivacy: "Privacy Policy",
@@ -830,58 +822,21 @@
       }
     };
 
-    const products = {
-      "urban-legend": {
-        name: { el: "Urban Legend", en: "Urban Legend" },
-        category: { el: "Statement", en: "Statement" },
-        price: 19.99,
-        image: "assets/icons/a1.png",
-        description: {
-          el: "Καθαρό statement design για δυνατές εμφανίσεις.",
-          en: "Clean statement design for standout looks."
-        }
-      },
-      "classic-banter": {
-        name: { el: "Classic Banter", en: "Classic Banter" },
-        category: { el: "Fun", en: "Fun" },
-        price: 19.99,
-        image: "assets/icons/b1.png",
-        description: {
-          el: "Άνετο και ευκολοφόρετο για κάθε μέρα.",
-          en: "Comfortable and easy to wear every day."
-        }
-      },
-      "easy-mode": {
-        name: { el: "Easy Mode", en: "Easy Mode" },
-        category: { el: "Minimal", en: "Minimal" },
-        price: 19.99,
-        image: "assets/icons/c1.png",
-        description: {
-          el: "Minimal αισθητική και διαχρονικό ύφος.",
-          en: "Minimal aesthetic with timeless style."
-        }
-      },
-      "one-more-tee": {
-        name: { el: "One More Tee", en: "One More Tee" },
-        category: { el: "Fun", en: "Fun" },
-        price: 19.99,
-        image: "assets/icons/d1.png",
-        description: {
-          el: "Fun χαρακτήρας που τραβάει βλέμματα.",
-          en: "Fun character that attracts attention."
-        }
-      },
-      "signature-fit": {
-        name: { el: "Signature Fit", en: "Signature Fit" },
-        category: { el: "Minimal", en: "Minimal" },
-        price: 19.99,
-        image: "assets/icons/e1.png",
-        description: {
-          el: "Η πιο safe premium επιλογή για καθημερινό look.",
-          en: "The safest premium choice for everyday looks."
-        }
-      }
-    };
+    const products = window.HuemanProductCatalog && typeof window.HuemanProductCatalog.getAll === "function"
+      ? window.HuemanProductCatalog.getAll()
+      : {
+          "urban-legend": {
+            name: { el: "Urban Legend", en: "Urban Legend" },
+            category: { el: "Statement", en: "Statement" },
+            price: 19.99,
+            images: ["assets/icons/a1.png", "assets/icons/a2.png", "assets/icons/a3.png", "assets/icons/a4.png"],
+            image: "assets/icons/a1.png",
+            description: {
+              el: "Καθαρό statement design για δυνατές εμφανίσεις.",
+              en: "Clean statement design for standout looks."
+            }
+          }
+        };
 
     const params = new URLSearchParams(window.location.search);
     const productKey = params.get("product") || "urban-legend";
@@ -892,11 +847,17 @@
     const productPrice = document.getElementById("productPrice");
     const productDescription = document.getElementById("productDescription");
     const productImage = document.getElementById("productImage");
+    const productThumbs = document.getElementById("productThumbs");
     const totalPrice = document.getElementById("totalPrice");
     const sizeSelect = document.getElementById("sizeSelect");
     const qtyInput = document.getElementById("qtyInput");
     const addToCartBtn = document.getElementById("addToCartBtn");
     const revealItems = document.querySelectorAll(".reveal-item");
+    const productImages = Array.isArray(selectedProduct.images) && selectedProduct.images.length
+      ? selectedProduct.images
+      : [selectedProduct.image || "assets/icons/a1.png"];
+
+    let activeImageIndex = 0;
 
     function formatPrice(value) {
       const locale = currentLanguage === "en" ? "en-IE" : "el-GR";
@@ -917,9 +878,8 @@
       document.title = texts.title;
 
       [
-        "chipReturns", "chipPayment", "labelSize", "labelQty",
+        "chipReturns", "labelSize", "labelQty",
         "totalLabel", "noteSecure",
-        "processTitle", "process1", "process2", "process3", "process4",
         "footerMain", "linkTerms", "linkPrivacy", "linkReturns", "linkCookies"
       ].forEach((id) => {
         const el = document.getElementById(id);
@@ -944,10 +904,44 @@
       productName.textContent = textFor(selectedProduct.name);
       productCategory.textContent = textFor(selectedProduct.category);
       productDescription.textContent = textFor(selectedProduct.description);
-      productImage.alt = `${textFor(selectedProduct.name)} t-shirt`;
+      applyActiveImage(activeImageIndex);
 
       if (window.HuemanCart) window.HuemanCart.refreshLanguage();
       updateTotal();
+    }
+
+    function applyActiveImage(index) {
+      const safeIndex = Math.max(0, Math.min(index, productImages.length - 1));
+      activeImageIndex = safeIndex;
+
+      productImage.src = productImages[safeIndex];
+      productImage.alt = `${textFor(selectedProduct.name)} t-shirt ${safeIndex + 1}`;
+
+      if (!productThumbs) return;
+      const thumbs = productThumbs.querySelectorAll(".gallery-thumb");
+      thumbs.forEach((thumb, thumbIndex) => {
+        thumb.classList.toggle("is-active", thumbIndex === safeIndex);
+      });
+    }
+
+    function renderGallery() {
+      if (!productThumbs) return;
+
+      productThumbs.innerHTML = productImages
+        .map((src, index) => `
+          <button class="gallery-thumb${index === activeImageIndex ? " is-active" : ""}" type="button" data-image-index="${index}" aria-label="Product image ${index + 1}">
+            <img src="${src}" alt="${textFor(selectedProduct.name)} preview ${index + 1}" loading="lazy" decoding="async" />
+          </button>
+        `)
+        .join("");
+
+      productThumbs.querySelectorAll(".gallery-thumb").forEach((thumb) => {
+        thumb.addEventListener("click", () => {
+          const index = Number(thumb.dataset.imageIndex);
+          if (Number.isNaN(index)) return;
+          applyActiveImage(index);
+        });
+      });
     }
 
     function updateTotal() {
@@ -960,8 +954,8 @@
     productCategory.textContent = textFor(selectedProduct.category);
     productPrice.textContent = formatPrice(selectedProduct.price);
     productDescription.textContent = textFor(selectedProduct.description);
-    productImage.src = selectedProduct.image;
-    productImage.alt = `${textFor(selectedProduct.name)} t-shirt`;
+    renderGallery();
+    applyActiveImage(0);
 
     sizeSelect.addEventListener("change", updateTotal);
     qtyInput.addEventListener("input", updateTotal);

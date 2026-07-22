@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="64" viewBox="0 0 120 64" role="img" aria-label="ACS">
+  <rect x="0.5" y="0.5" width="119" height="63" rx="6" fill="#ffffff" stroke="#d8d8d4"/>
+  <polygon points="8,44 38,28 8,12" fill="#d62f2f"/>
+  <text x="67" y="39" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-style="italic" font-weight="700" fill="#d62f2f">ACS</text>
+</svg>

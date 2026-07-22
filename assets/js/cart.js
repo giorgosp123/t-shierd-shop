@@ -1,7 +1,7 @@
 /*
  * Hueman shared shopping cart.
- * Cart data + shipping address are persisted in localStorage so they carry
- * over between index.html and product.html.
+ * Cart data is persisted in localStorage so it carries over between
+ * index.html and product.html.
  *
  * Payment: checkout is handled by a Stripe Checkout Session created on the
  * fly by the Netlify function in netlify/functions/create-checkout-session.js.
@@ -12,7 +12,7 @@
  * SETUP REQUIRED:
  *  1. Set CHECKOUT_ENDPOINT below to your deployed Netlify function URL.
  *  2. Deploy netlify/functions/create-checkout-session.js to Netlify and set
- *     the STRIPE_SECRET_KEY environment variable in the Netlify dashboard.
+ *     the STRIPESECRETKEY environment variable in the Netlify dashboard.
  * This works even though the site itself is hosted on GitHub Pages, since
  * CHECKOUT_ENDPOINT is a full URL pointing at the Netlify function.
  */
@@ -20,7 +20,6 @@
   "use strict";
 
   const CART_KEY = "huemanCart";
-  const ADDRESS_KEY = "huemanAddress";
   const LANG_KEY = "huemanLang";
 
   const CHECKOUT_ENDPOINT = "https://hue-man.netlify.app/.netlify/functions/create-checkout-session";
@@ -41,22 +40,11 @@
       cartEmpty: "Το καλάθι είναι άδειο.",
       sizeLabel: "Μέγεθος",
       remove: "Αφαίρεση",
-      addressTitle: "Διεύθυνση αποστολής",
       totalLabel: "Σύνολο:",
-      noteLabel: "Σημείωση παραγγελίας:",
-      noteHint: "* Η σημείωση αντιγράφηκε αυτόματα στο πρόχειρο (clipboard). Επικόλλησέ τη στο πεδίο σημειώσεων της σελίδας πληρωμής, αν υπάρχει.",
-      addressWarning: "Συμπλήρωσε όλα τα πεδία διεύθυνσης (οδός, αριθμός, περιοχή, Τ.Κ., πόλη) πριν την πληρωμή.",
+      noteLabel: "Σύνοψη παραγγελίας:",
       stripeWarning: "Η πληρωμή δεν είναι διαθέσιμη αυτή τη στιγμή. Δοκίμασε ξανά σε λίγο.",
       payBtn: "Πληρωμή με Visa",
-      added: "Προστέθηκε στο καλάθι",
-      placeholders: {
-        street: "π.χ. Λεωφόρος Μακαρίου Γ'",
-        number: "π.χ. 12",
-        area: "π.χ. Στρόβολος",
-        postalCode: "π.χ. 2008",
-        city: "π.χ. Λευκωσία"
-      },
-      addressFieldNames: { street: "Οδός", number: "Αριθμός", area: "Περιοχή", postalCode: "Τ.Κ.", city: "Πόλη" }
+      added: "Προστέθηκε στο καλάθι"
     },
     en: {
       cartAria: "Shopping cart",
@@ -65,22 +53,11 @@
       cartEmpty: "Your cart is empty.",
       sizeLabel: "Size",
       remove: "Remove",
-      addressTitle: "Shipping address",
       totalLabel: "Total:",
-      noteLabel: "Order note:",
-      noteHint: "* The note was copied automatically to your clipboard. Paste it into the payment page's notes field, if available.",
-      addressWarning: "Fill in all address fields (street, number, area, postal code, city) before payment.",
+      noteLabel: "Order summary:",
       stripeWarning: "Payment isn't available right now. Please try again shortly.",
       payBtn: "Pay with Visa",
-      added: "Added to cart",
-      placeholders: {
-        street: "e.g. Makariou Avenue III",
-        number: "e.g. 12",
-        area: "e.g. Strovolos",
-        postalCode: "e.g. 2008",
-        city: "e.g. Nicosia"
-      },
-      addressFieldNames: { street: "Street", number: "Number", area: "Area", postalCode: "Postal code", city: "City" }
+      added: "Added to cart"
     }
   };
 
@@ -119,20 +96,6 @@
     localStorage.setItem(CART_KEY, JSON.stringify(items));
     updateBadge();
     renderCart();
-  }
-
-  function readAddress() {
-    try {
-      const raw = localStorage.getItem(ADDRESS_KEY);
-      const parsed = raw ? JSON.parse(raw) : null;
-      return Object.assign({ street: "", number: "", area: "", postalCode: "", city: "" }, parsed || {});
-    } catch {
-      return { street: "", number: "", area: "", postalCode: "", city: "" };
-    }
-  }
-
-  function writeAddress(address) {
-    localStorage.setItem(ADDRESS_KEY, JSON.stringify(address));
   }
 
   function cartCount() {
@@ -188,23 +151,11 @@
         </div>
         <div id="cartEmptyState" class="cart-empty"></div>
         <div class="cart-items" id="cartItemsList"></div>
-        <div class="cart-address" id="cartAddressBlock">
-          <p class="cart-address-title" id="cartAddressTitle"></p>
-          <div class="cart-address-grid">
-            <input id="cartStreet" type="text" />
-            <input id="cartNumber" type="text" />
-            <input id="cartArea" type="text" />
-            <input id="cartPostalCode" type="text" maxlength="5" inputmode="numeric" />
-            <input id="cartCity" type="text" class="cart-field-full" />
-          </div>
-        </div>
         <div class="cart-summary">
           <span id="cartTotalLabel"></span>
           <strong id="cartTotalValue">0,00 €</strong>
         </div>
         <p class="cart-note"><strong id="cartNoteLabel"></strong> <span id="cartNotePreview">-</span></p>
-        <p class="cart-hint" id="cartNoteHint"></p>
-        <div class="cart-warning" id="cartAddressWarning" hidden></div>
         <div class="cart-warning" id="cartStripeWarning" hidden></div>
         <div class="cart-actions">
           <button type="button" class="btn btn-main" id="cartPayBtn"></button>
@@ -220,19 +171,10 @@
       title: document.getElementById("cartDrawerTitle"),
       emptyState: document.getElementById("cartEmptyState"),
       itemsList: document.getElementById("cartItemsList"),
-      addressBlock: document.getElementById("cartAddressBlock"),
-      addressTitle: document.getElementById("cartAddressTitle"),
-      street: document.getElementById("cartStreet"),
-      number: document.getElementById("cartNumber"),
-      area: document.getElementById("cartArea"),
-      postalCode: document.getElementById("cartPostalCode"),
-      city: document.getElementById("cartCity"),
       totalLabel: document.getElementById("cartTotalLabel"),
       totalValue: document.getElementById("cartTotalValue"),
       noteLabel: document.getElementById("cartNoteLabel"),
       notePreview: document.getElementById("cartNotePreview"),
-      noteHint: document.getElementById("cartNoteHint"),
-      addressWarning: document.getElementById("cartAddressWarning"),
       stripeWarning: document.getElementById("cartStripeWarning"),
       payBtn: document.getElementById("cartPayBtn")
     };
@@ -243,38 +185,13 @@
       if (event.key === "Escape") closeCart();
     });
 
-    const address = readAddress();
-    els.street.value = address.street;
-    els.number.value = address.number;
-    els.area.value = address.area;
-    els.postalCode.value = address.postalCode;
-    els.city.value = address.city;
-
-    [els.street, els.number, els.area, els.postalCode, els.city].forEach((input) => {
-      input.addEventListener("input", () => {
-        writeAddress({
-          street: els.street.value.trim(),
-          number: els.number.value.trim(),
-          area: els.area.value.trim(),
-          postalCode: els.postalCode.value.trim(),
-          city: els.city.value.trim()
-        });
-        renderCart();
-      });
-    });
-
     els.payBtn.addEventListener("click", handlePay);
-  }
-
-  function isAddressComplete(address) {
-    return Boolean(address.street && address.number && address.area && address.postalCode && address.city);
   }
 
   function buildOrderNote() {
     const texts = t();
+    const lang = getLang();
     const items = readCart();
-    const address = readAddress();
-    const addressText = `${address.street} ${address.number}, ${address.area}, ${address.postalCode}, ${address.city}`;
 
     const itemsText = items
       .map((item) => {
@@ -284,10 +201,11 @@
       })
       .join(", ");
 
-    const label = getLang() === "en" ? "Address" : "Διεύθυνση";
     const total = formatPrice(cartTotal());
+    const productsLabel = lang === "en" ? "Items" : "Προϊόντα";
+    const payableLabel = lang === "en" ? "Payable total" : "Συνολικό πληρωτέο";
 
-    return `Hueman: ${itemsText || "-"} | ${label}: ${isAddressComplete(address) ? addressText : "-"} | ${texts.totalLabel} ${total}`;
+    return `Hueman | ${productsLabel}: ${itemsText || "-"} | ${payableLabel}: ${total}`;
   }
 
   function applyDrawerLanguage() {
@@ -297,16 +215,8 @@
     els.title.textContent = texts.cartTitle;
     els.closeBtn.setAttribute("aria-label", texts.cartClose);
     els.emptyState.textContent = texts.cartEmpty;
-    els.addressTitle.textContent = texts.addressTitle;
-    els.street.placeholder = texts.placeholders.street;
-    els.number.placeholder = texts.placeholders.number;
-    els.area.placeholder = texts.placeholders.area;
-    els.postalCode.placeholder = texts.placeholders.postalCode;
-    els.city.placeholder = texts.placeholders.city;
     els.totalLabel.textContent = texts.totalLabel;
     els.noteLabel.textContent = texts.noteLabel;
-    els.noteHint.textContent = texts.noteHint;
-    els.addressWarning.textContent = texts.addressWarning;
     els.stripeWarning.textContent = texts.stripeWarning;
     els.payBtn.textContent = texts.payBtn;
 
@@ -324,11 +234,9 @@
 
     els.emptyState.hidden = items.length > 0;
     els.itemsList.hidden = items.length === 0;
-    els.addressBlock.style.display = items.length === 0 ? "none" : "";
     document.querySelector(".cart-summary").style.display = items.length === 0 ? "none" : "flex";
     els.payBtn.parentElement.style.display = items.length === 0 ? "none" : "block";
     document.querySelector(".cart-note").style.display = items.length === 0 ? "none" : "block";
-    els.noteHint.style.display = items.length === 0 ? "none" : "block";
 
     els.itemsList.innerHTML = items
       .map((item) => {
@@ -397,29 +305,12 @@
   }
 
   async function handlePay() {
-    const texts = t();
     const items = readCart();
     if (!items.length) return;
 
-    const address = readAddress();
-    if (!isAddressComplete(address)) {
-      els.addressWarning.hidden = false;
-      if (!address.street) els.street.focus();
-      else if (!address.number) els.number.focus();
-      else if (!address.area) els.area.focus();
-      else if (!address.postalCode) els.postalCode.focus();
-      else els.city.focus();
-      return;
-    }
-    els.addressWarning.hidden = true;
     els.stripeWarning.hidden = true;
 
     const note = buildOrderNote();
-    try {
-      await navigator.clipboard.writeText(note);
-    } catch {
-      // Clipboard can be blocked in some browsers; no hard failure on payment flow.
-    }
 
     els.payBtn.disabled = true;
     try {

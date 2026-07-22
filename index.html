@@ -19,6 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/cart.css" />
+  <link rel="stylesheet" href="assets/css/payment-methods.css" />
   <style>
     :root {
       --bg: #f6f6f4;
@@ -972,12 +973,6 @@
       }
     }
 
-    @media (max-width: 520px) {
-      #chipPayment {
-        display: none;
-      }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -1007,7 +1002,6 @@
       </h1>
       <div class="nav-actions">
         <span class="chip" id="chipReturns">Δωρεάν αλλαγή 14 ημερών</span>
-        <span class="chip" id="chipPayment">Ασφαλής πληρωμή με Visa</span>
         <button type="button" class="cart-btn" id="cartToggleBtn" data-cart-toggle aria-label="Καλάθι αγορών">
           🛒<span class="cart-badge" id="cartBadgeIndex" data-cart-badge hidden>0</span>
         </button>
@@ -1120,36 +1114,63 @@
       </div>
     </section>
 
-    <section class="steps" aria-labelledby="steps-heading">
-      <div class="container steps-shell">
-        <h3 id="steps-heading">Πώς αγοράζεις σε 4 βήματα</h3>
-        <div class="step-grid">
-          <article class="step reveal-item"><b>1</b><strong id="step1Title">Διάλεξε σχέδιο</strong><span id="step1Text">Επίλεξε αυτό που ταιριάζει στο στιλ σου.</span></article>
-          <article class="step reveal-item"><b>2</b><strong id="step2Title">Πρόσθεσε στο καλάθι</strong><span id="step2Text">Διάλεξε μέγεθος και ποσότητα και πρόσθεσέ το στο καλάθι σου.</span></article>
-          <article class="step reveal-item"><b>3</b><strong id="step3Title">Πληρωμή με Visa</strong><span id="step3Text">Ολοκλήρωσε την πληρωμή με ασφαλές link κάρτας (Visa).</span></article>
-          <article class="step reveal-item"><b>4</b><strong id="step4Title">Αποστολή ACS</strong><span id="step4Text">Μετά την πληρωμή, η αποστολή γίνεται εντός 5 ημερών.</span></article>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
     <div class="container">
       <p class="footer-main" id="footerMain"><strong>Hueman</strong> | Premium t-shirts με καθαρό design, πληρωμή με Visa και αποστολή ACS στην Κύπρο.</p>
-      <nav class="footer-links" aria-label="Νομικές σελίδες">
-        <a href="terms-and-conditions.html" id="linkTerms">Όροι Χρήσης</a>
-        <a href="privacy-policy.html" id="linkPrivacy">Πολιτική Απορρήτου</a>
-        <a href="returns-policy.html" id="linkReturns">Πολιτική Επιστροφών</a>
-        <a href="cookies-policy.html" id="linkCookies">Πολιτική Cookies</a>
-      </nav>
+      <section class="commerce-panels" aria-label="Μέθοδοι παράδοσης και πληρωμής">
+        <div class="commerce-column">
+          <h4 class="commerce-title">Μέθοδοι παράδοσης</h4>
+          <p class="commerce-line">Courier</p>
+          <p class="commerce-line">Σημεία παραλαβής δεμάτων</p>
+          <ul class="delivery-badges" aria-label="Delivery options">
+            <li class="delivery-badge"><img src="assets/icons/acs.svg" alt="ACS" loading="lazy" decoding="async" /></li>
+            <li class="delivery-badge"><img src="assets/icons/box-now.svg" alt="BOX NOW" loading="lazy" decoding="async" /></li>
+          </ul>
+        </div>
+        <div class="commerce-column">
+          <h4 class="commerce-title">Μέθοδοι πληρωμής</h4>
+          <p class="commerce-line">Ηλεκτρονική πληρωμή</p>
+          <p class="commerce-line">Αντικαταβολή</p>
+          <ul class="payment-badges" aria-label="Payment options">
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/mastercard.svg" alt="Mastercard" loading="lazy" decoding="async" /></li>
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/visa.svg" alt="Visa" loading="lazy" decoding="async" /></li>
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/maestro.svg" alt="Maestro" loading="lazy" decoding="async" /></li>
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/diners.svg" alt="Diners" loading="lazy" decoding="async" /></li>
+            <li class="payment-badge"><img src="https://www.sakellaris.gr/static/version1783678609/frontend/MageGuide/Sakellaris/el_GR/images/americanexpress.svg" alt="American Express" loading="lazy" decoding="async" /></li>
+          </ul>
+        </div>
+        <div class="commerce-column">
+          <h4 class="commerce-title">Νομικές πληροφορίες</h4>
+          <nav class="footer-links commerce-links" aria-label="Νομικές σελίδες">
+            <a href="terms-and-conditions.html" id="linkTerms">Όροι Χρήσης</a>
+            <a href="privacy-policy.html" id="linkPrivacy">Πολιτική Απορρήτου</a>
+            <a href="returns-policy.html" id="linkReturns">Πολιτική Επιστροφών</a>
+            <a href="cookies-policy.html" id="linkCookies">Πολιτική Cookies</a>
+          </nav>
+        </div>
+      </section>
     </div>
   </footer>
 
+  <script src="assets/js/product-catalog.js"></script>
   <script src="assets/js/cart.js"></script>
   <script>
     const filterButtons = document.querySelectorAll('.filter-btn');
     const cards = document.querySelectorAll('.card');
     const revealItems = document.querySelectorAll('.reveal-item');
+    const productCatalogApi = window.HuemanProductCatalog || null;
+
+    function applyCatalogDescriptions(lang) {
+      if (!productCatalogApi || typeof productCatalogApi.getIndexDescriptionMap !== 'function') return;
+      const descriptionMap = productCatalogApi.getIndexDescriptionMap(lang);
+      Object.keys(descriptionMap).forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = descriptionMap[id];
+      });
+    }
 
     filterButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -1268,7 +1289,6 @@
       el: {
         title: 'Hueman | Premium T-Shirts',
         chipReturns: 'Δωρεάν αλλαγή 14 ημερών',
-        chipPayment: 'Ασφαλής πληρωμή με Visa',
         heroTitle: 'Essential <span>T-Shirts</span>',
         heroSubtitle: 'Καθαρή γραμμή.<br />Σταθερή τιμή<br /><span class="hero-price">19,99&nbsp;€.</span>',
         trust1Title: 'Αποστολή μέσω ACS',
@@ -1311,7 +1331,6 @@
       en: {
         title: 'Hueman | Premium T-Shirts',
         chipReturns: 'Free exchange within 14 days',
-        chipPayment: 'Secure Visa payment',
         heroTitle: 'Essential <span>T-Shirts</span>',
         heroSubtitle: 'Clean lines.<br />Stable price<br /><span class="hero-price">€19.99</span>',
         trust1Title: 'Shipping via ACS',
@@ -1372,6 +1391,7 @@
       });
 
       if (window.HuemanCart) window.HuemanCart.refreshLanguage();
+      applyCatalogDescriptions(lang);
     }
 
     const savedLanguage = localStorage.getItem(languageKey);

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="64" viewBox="0 0 120 64" role="img" aria-label="BOX NOW">
+  <rect x="0.5" y="0.5" width="119" height="63" rx="6" fill="#33c722" stroke="#27a61a"/>
+  <text x="60" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="800" fill="#ffffff">BOX</text>
+  <text x="60" y="49" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="800" fill="#ffffff">NOW</text>
+</svg>

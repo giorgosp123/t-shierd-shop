@@ -5,7 +5,7 @@
  *
  * SETUP REQUIRED:
  *  1. In the Netlify site dashboard: Site configuration > Environment
- *     variables, add STRIPE_SECRET_KEY = sk_live_... (or sk_test_... while
+ *     variables, add STRIPESECRETKEY = sk_live_... (or sk_test_... while
  *     testing). Never put the secret key in any client-side file.
  *  2. Deploy this repo to Netlify (connect the GitHub repo, or `netlify deploy`).
  *     Netlify will detect netlify.toml and install "stripe" from package.json
@@ -40,8 +40,8 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: CORS_HEADERS, body: JSON.stringify({ error: "Method not allowed" }) };
   }
 
-  if (!process.env.STRIPE_SECRET_KEY) {
-    return { statusCode: 500, headers: CORS_HEADERS, body: JSON.stringify({ error: "STRIPE_SECRET_KEY is not configured" }) };
+  if (!process.env.STRIPESECRETKEY) {
+    return { statusCode: 500, headers: CORS_HEADERS, body: JSON.stringify({ error: "STRIPESECRETKEY is not configured" }) };
   }
 
   let payload;
@@ -57,7 +57,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = Stripe(process.env.STRIPESECRETKEY);
 
     const line_items = items.map((item) => {
       const product = CATALOG[item.productKey];
@@ -90,6 +90,11 @@ exports.handler = async (event) => {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
+      // Collect customer address directly on Stripe Checkout.
+      billing_address_collection: "required",
+      shipping_address_collection: {
+        allowed_countries: ["CY"]
+      },
       line_items,
       success_url: `${baseUrl}/?checkout=success`,
       cancel_url: `${baseUrl}/?checkout=cancel`,
