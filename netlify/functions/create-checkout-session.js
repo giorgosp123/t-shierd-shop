@@ -5,7 +5,7 @@
  *
  * SETUP REQUIRED:
  *  1. In the Netlify site dashboard: Site configuration > Environment
- *     variables, add STRIPESECRETKEY = sk_live_... (or sk_test_... while
+ *     variables, add STRIPE_SECRET_KEY = sk_live_... (or sk_test_... while
  *     testing). Never put the secret key in any client-side file.
  *  2. Deploy this repo to Netlify (connect the GitHub repo, or `netlify deploy`).
  *     Netlify will detect netlify.toml and install "stripe" from package.json
@@ -25,8 +25,6 @@ const CATALOG = {
 
 // Allow known storefront origins to call this endpoint from the browser.
 const ALLOWED_ORIGINS = new Set([
-  "https://giorgosp123.github.io",
-  "https://hue-man.netlify.app",
   "http://localhost:8888",
   "http://localhost:3000"
 ]);
@@ -35,15 +33,23 @@ function isAllowedOrigin(origin) {
   if (!origin) return false;
   if (ALLOWED_ORIGINS.has(origin)) return true;
 
+  // Allow GitHub Pages origins.
+  if (/^https:\/\/[a-z0-9-]+\.github\.io$/i.test(origin)) {
+    return true;
+  }
+
+  // Allow primary Netlify domains.
+  if (/^https:\/\/[a-z0-9-]+\.netlify\.app$/i.test(origin)) {
+    return true;
+  }
+
   // Allow Netlify deploy previews, e.g. https://deploy-preview-12--hue-man.netlify.app
-  return /^https:\/\/[a-z0-9-]+--hue-man\.netlify\.app$/i.test(origin);
+  return /^https:\/\/[a-z0-9-]+--[a-z0-9-]+\.netlify\.app$/i.test(origin);
 }
 
 function getCorsHeaders(event) {
   const requestOrigin = event && event.headers ? (event.headers.origin || "") : "";
-  const allowOrigin = isAllowedOrigin(requestOrigin)
-    ? requestOrigin
-    : "https://giorgosp123.github.io";
+  const allowOrigin = isAllowedOrigin(requestOrigin) ? requestOrigin : "*";
 
   return {
     "Access-Control-Allow-Origin": allowOrigin,
@@ -53,8 +59,18 @@ function getCorsHeaders(event) {
   };
 }
 
+function getStripeSecretKey() {
+  return (
+    process.env.STRIPESECRETKEY ||
+    process.env.STRIPE_SECRET_KEY ||
+    process.env.STRIPE_SECRRET_KEY ||
+    ""
+  );
+}
+
 exports.handler = async (event) => {
   const corsHeaders = getCorsHeaders(event);
+  const stripeSecretKey = getStripeSecretKey();
 
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: corsHeaders, body: "" };
@@ -64,8 +80,12 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers: corsHeaders, body: JSON.stringify({ error: "Method not allowed" }) };
   }
 
-  if (!process.env.STRIPESECRETKEY) {
-    return { statusCode: 500, headers: corsHeaders, body: JSON.stringify({ error: "STRIPESECRETKEY is not configured" }) };
+  if (!stripeSecretKey) {
+    return {
+      statusCode: 500,
+      headers: corsHeaders,
+      body: JSON.stringify({ error: "Stripe secret key env var is not configured" })
+    };
   }
 
   let payload;
@@ -81,7 +101,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const stripe = Stripe(process.env.STRIPESECRETKEY);
+    const stripe = Stripe(stripeSecretKey);
 
     const line_items = items.map((item) => {
       const product = CATALOG[item.productKey];

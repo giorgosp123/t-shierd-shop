@@ -12,7 +12,7 @@
  * SETUP REQUIRED:
  *  1. Set CHECKOUT_ENDPOINT below to your deployed Netlify function URL.
  *  2. Deploy netlify/functions/create-checkout-session.js to Netlify and set
- *     the STRIPESECRETKEY environment variable in the Netlify dashboard.
+ *     the STRIPE_SECRET_KEY environment variable in the Netlify dashboard.
  * This works even though the site itself is hosted on GitHub Pages, since
  * CHECKOUT_ENDPOINT is a full URL pointing at the Netlify function.
  */
@@ -22,7 +22,10 @@
   const CART_KEY = "huemanCart";
   const LANG_KEY = "huemanLang";
 
-  const CHECKOUT_ENDPOINT = "https://hue-man.netlify.app/.netlify/functions/create-checkout-session";
+  const CHECKOUT_ENDPOINT =
+    window.location.hostname.endsWith("netlify.app")
+      ? "/.netlify/functions/create-checkout-session"
+      : "https://hue-man.netlify.app/.netlify/functions/create-checkout-session";
 
   const CATALOG = {
     "urban-legend": { name: { el: "Urban Legend", en: "Urban Legend" }, price: 19.99, image: "assets/icons/a1.png" },
